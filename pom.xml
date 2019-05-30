@@ -20,6 +20,7 @@
         <module>gateway</module>
         <module>auth</module>
         <module>common</module>
+        <module>robot</module>
     </modules>
 
     <properties>
@@ -147,13 +148,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-
-        <!-- 将token存储在redis中 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-security</artifactId>
-            <version>${spring-cloud.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper -->

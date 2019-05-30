@@ -40,12 +40,8 @@ public class Swagger2Config {
         @Override
         public List<SwaggerResource> get() {
             List resources = new ArrayList<>();
-            resources.add(swaggerResource("auth（授权中心）", "/api/web/auth/auth-center/v2/api-docs", "2.0"));
-            resources.add(swaggerResource("tenant-mgt（运营）", "/api/web/tenantmgt/tenant-mgt/v2/api-docs", "2.0"));
-            resources.add(swaggerResource("tenant-portal（门户）", "/api/web/tenantportal/tenant-portal/v2/api-docs", "2.0"));
-            resources.add(swaggerResource("basic-info（基础）", "/api/web/basicinfo/basic-info/v2/api-docs", "2.0"));
-            resources.add(swaggerResource("billing-system（收费）", "/api/web/billing-system/billing-system/v2/api-docs", "2.0"));
-//            resources.add(swaggerResource("zuul", "/v2/api-docs", "2.0"));
+            resources.add(swaggerResource("auth（授权中心）", "/api/auth/v2/api-docs", "2.0"));
+            resources.add(swaggerResource("robot（机器人）", "/api/robot/v2/api-docs", "2.0"));
             return resources;
         }
 

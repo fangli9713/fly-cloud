@@ -1,4 +1,4 @@
-package com.fly.gateway.config.datasource;
+package com.fly.common.config.datasource;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -18,18 +18,18 @@ import javax.sql.DataSource;
   * @date 2019/5/28
   */
 @Configuration
-@MapperScan(basePackages = MainDataSourceConfig.PACKAGE, sqlSessionFactoryRef = MainDataSourceConfig.REF)
-public class MainDataSourceConfig {
+@MapperScan(basePackages = RobotDataSourceConfig.PACKAGE, sqlSessionFactoryRef = RobotDataSourceConfig.REF)
+public class RobotDataSourceConfig{
 
     /**
      * 精确到 master 目录，以便跟其他数据源隔离
      */
-    static final String PACKAGE = "com.fly.gateway.dao.main";
-    static final String MAPPER_LOCATION = "classpath*:mapper/auth/*.xml";
-    static final String REF = "mainSqlSessionFactory";
+    static final String PACKAGE = "com.fly.gateway.dao.robot";
+    static final String MAPPER_LOCATION = "classpath*:mapper/robot/*.xml";
+    static final String REF = "robotSqlSessionFactory";
 
     @Bean
-    public SqlSessionFactory mainSqlSessionFactory()
+    public SqlSessionFactory robotSqlSessionFactory()
             throws Exception {
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(ds);
@@ -37,17 +37,18 @@ public class MainDataSourceConfig {
                 .getResources(MAPPER_LOCATION));
         return sessionFactory.getObject();
     }
+
     @Bean
-    public SqlSessionTemplate sqlSessionTemplate() throws Exception {
+    public SqlSessionTemplate sqlSessionTemplate2() throws Exception {
         // 使用上面配置的Factory
-        SqlSessionTemplate template = new SqlSessionTemplate(mainSqlSessionFactory());
+        SqlSessionTemplate template = new SqlSessionTemplate(robotSqlSessionFactory());
         return template;
     }
 
-
     @Autowired
-    @Qualifier("mainDataSource")
+    @Qualifier("robotDataSource")
     private DataSource ds;
+
 
 
 

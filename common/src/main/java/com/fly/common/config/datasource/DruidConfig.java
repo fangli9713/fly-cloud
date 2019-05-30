@@ -1,4 +1,4 @@
-package com.fly.gateway.config.datasource;
+package com.fly.common.config.datasource;
 
 import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.support.http.StatViewServlet;
@@ -22,10 +22,10 @@ import javax.transaction.UserTransaction;
 import java.util.Properties;
 
 /**
-  * @description: TODO
-  * @author fanglinan
-  * @date 2019/5/28
-  */
+ * @author fanglinan
+ * @description: TODO
+ * @date 2019/5/28
+ */
 @Configuration
 public class DruidConfig {
 
@@ -34,44 +34,40 @@ public class DruidConfig {
     @Autowired
     public DataSource systemDataSource(Environment env) {
         AtomikosDataSourceBean ds = new AtomikosDataSourceBean();
-        Properties prop = build(env, "spring.datasource.druid.","main.");
+        Properties prop = build(env, "spring.datasource.druid.", "main.");
         ds.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
         ds.setUniqueResourceName("mainDB");
         ds.setPoolSize(5);
         ds.setXaProperties(prop);
         return ds;
-
     }
 
     @Autowired
     @Bean(name = "robotDataSource")
     public AtomikosDataSourceBean businessDataSource(Environment env) {
-
         AtomikosDataSourceBean ds = new AtomikosDataSourceBean();
-        Properties prop = build(env, "spring.datasource.druid.","robot.");
+        Properties prop = build(env, "spring.datasource.druid.", "robot.");
         ds.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
         ds.setUniqueResourceName("robotDB");
         ds.setPoolSize(5);
         ds.setXaProperties(prop);
-
         return ds;
     }
 
-
     /**
      * 注入事物管理器
+     *
      * @return
      */
     @Bean(name = "xaTransactionManager")
-    public JtaTransactionManager regTransactionManager () {
+    public JtaTransactionManager regTransactionManager() {
         UserTransactionManager userTransactionManager = new UserTransactionManager();
         UserTransaction userTransaction = new UserTransactionImp();
         return new JtaTransactionManager(userTransaction, userTransactionManager);
     }
 
 
-    private Properties build(Environment env, String prefix,String sourceName) {
-
+    private Properties build(Environment env, String prefix, String sourceName) {
         Properties prop = new Properties();
         prop.put("url", env.getProperty(prefix + sourceName + "url"));
         prop.put("username", env.getProperty(prefix + sourceName + "username"));
@@ -82,10 +78,8 @@ public class DruidConfig {
         prop.put("minIdle", env.getProperty(prefix + "minIdle", Integer.class));
         prop.put("maxWait", env.getProperty(prefix + "maxWait", Integer.class));
         prop.put("poolPreparedStatements", env.getProperty(prefix + "poolPreparedStatements", Boolean.class));
-
         prop.put("maxPoolPreparedStatementPerConnectionSize",
                 env.getProperty(prefix + "maxPoolPreparedStatementPerConnectionSize", Integer.class));
-
         prop.put("maxPoolPreparedStatementPerConnectionSize",
                 env.getProperty(prefix + "maxPoolPreparedStatementPerConnectionSize", Integer.class));
         prop.put("validationQuery", env.getProperty(prefix + "validationQuery"));
@@ -97,23 +91,12 @@ public class DruidConfig {
                 env.getProperty(prefix + "timeBetweenEvictionRunsMillis", Integer.class));
         prop.put("minEvictableIdleTimeMillis", env.getProperty(prefix + "minEvictableIdleTimeMillis", Integer.class));
         prop.put("filters", env.getProperty(prefix + "filters"));
-
         return prop;
     }
-
-
-
-
-
-
-
-
-
 
     @Bean
     public ServletRegistrationBean druidServlet() {
         ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
-
         //控制台管理用户，加入下面2行 进入druid后台就需要登录
         //servletRegistrationBean.addInitParameter("loginUsername", "admin");
         //servletRegistrationBean.addInitParameter("loginPassword", "admin");
@@ -131,7 +114,7 @@ public class DruidConfig {
     }
 
     @Bean
-    public StatFilter statFilter(){
+    public StatFilter statFilter() {
         StatFilter statFilter = new StatFilter();
         statFilter.setLogSlowSql(true); //slowSqlMillis用来配置SQL慢的标准，执行时间超过slowSqlMillis的就是慢。
         statFilter.setMergeSql(true); //SQL合并配置
@@ -140,7 +123,7 @@ public class DruidConfig {
     }
 
     @Bean
-    public WallFilter wallFilter(){
+    public WallFilter wallFilter() {
         WallFilter wallFilter = new WallFilter();
         //允许执行多条SQL
         WallConfig config = new WallConfig();

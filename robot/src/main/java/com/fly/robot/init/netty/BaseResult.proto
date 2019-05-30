@@ -1,0 +1,9 @@
+syntax = "proto3";
+package com.fly.robot.init.netty.dto;
+
+message BaseResult{
+    int32 code = 1;
+    string data = 2;
+    string method = 3;
+    string message = 4;
+}

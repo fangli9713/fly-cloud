@@ -1,9 +1,10 @@
-package com.fly.gateway;
-
+package com.fly.robot;
 
 import com.fly.common.annotation.EnableCorsConfiguration;
 import com.fly.common.annotation.EnableDruidSourceConfiguration;
+import com.fly.robot.init.netty.NettyServer;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,11 +16,10 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-
 /**
-  * @description: 网关启动入口
+  * @description: robot工程的启动入口
   * @author fanglinan
-  * @date 2019/5/28
+  * @date 2019/5/30
   */
 
 @SpringBootApplication
@@ -33,17 +33,22 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @Slf4j
 @EnableCorsConfiguration
 @EnableDruidSourceConfiguration
-public class GateWayApplication implements CommandLineRunner {
+public class RobotApplication implements CommandLineRunner {
 
     @Value("${spring.profiles.active}")
     private String active;
 
+    @Autowired
+    NettyServer nettyServer;
+
     public static void main(String[] args) {
-        SpringApplication.run(GateWayApplication.class, args);
+        SpringApplication.run(RobotApplication.class, args);
     }
+
 
     @Override
     public void run(String... args) throws Exception {
-        log.error("gateway网关服务启动成功,当前运行环境-------->"+active);
+        log.error("robot服务启动成功,当前运行环境-------->" + active);
+        nettyServer.start();
     }
 }
