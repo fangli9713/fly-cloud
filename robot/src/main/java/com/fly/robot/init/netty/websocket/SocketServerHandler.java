@@ -27,14 +27,14 @@ public class SocketServerHandler extends SimpleChannelInboundHandler<TextWebSock
     public void channelActive(ChannelHandlerContext ctx) throws Exception { // (5)
         super.channelActive(ctx);
         Channel incoming = ctx.channel();
-        System.out.println("ChatClient:" + incoming.remoteAddress() + "上线");
+        log.info("ChatClient:" + incoming.remoteAddress() + "上线");
     }
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception { // (6)
         super.channelInactive(ctx);
         Channel incoming = ctx.channel();
-        System.out.println("ChatClient:" + incoming.remoteAddress() + "掉线");
+        log.info("ChatClient:" + incoming.remoteAddress() + "掉线");
     }
 
     /**
@@ -56,8 +56,11 @@ public class SocketServerHandler extends SimpleChannelInboundHandler<TextWebSock
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame obj) throws Exception {
-      log.info("收到客户端消息");
-     // SocketServiceHandler.writeChannel(ctx.channel(),0,"1","1");
+        final String text = obj.text();
+        log.info("收到客户端消息=="+text);
+      if("heartbeat".equalsIgnoreCase(text)){
+          SocketServiceHandler.writeChannel(ctx.channel(),0,"1","heart");
+      }
         try {
         //    SocketHandler.handle(ctx,msg);
 

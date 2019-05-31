@@ -24,9 +24,9 @@ public class SocketChannelHandler extends ChannelInitializer<SocketChannel> {
     protected void initChannel(SocketChannel ch){
         ChannelPipeline pipeline = ch.pipeline();
         // //此两项为添加心跳机制,60秒查看一次在线的客户端channel是否空闲
-        pipeline.addLast( new IdleStateHandler(10, 10, 10, TimeUnit.SECONDS));
+//        pipeline.addLast( new IdleStateHandler(10, 10, 10, TimeUnit.SECONDS));
         // 超时处理
-        pipeline.addLast(new SocketServerIdleStateTrigger());
+//        pipeline.addLast(new SocketServerIdleStateTrigger());
         //超时handler
         pipeline.addLast(new ReadTimeoutHandler(60));
         //HttpServerCodec: 针对http协议进行编解码
