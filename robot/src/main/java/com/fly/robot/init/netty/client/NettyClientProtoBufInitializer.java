@@ -29,8 +29,8 @@ public class NettyClientProtoBufInitializer extends ChannelInitializer<SocketCha
         channelPipeline.addLast(
                 new ProtobufDecoder(BaseResultOuterClass.BaseResult.getDefaultInstance()));
         // 用于在序列化的字节数组前加上一个简单的包头，只包含序列化的字节长度。
-        channelPipeline.addLast(
-                new ProtobufVarint32LengthFieldPrepender());
+//        channelPipeline.addLast(
+//                new ProtobufVarint32LengthFieldPrepender());
         //配置Protobuf编码器，发送的消息会先经过编码
         channelPipeline.addLast( new ProtobufEncoder());
         // ----Protobuf处理器END----

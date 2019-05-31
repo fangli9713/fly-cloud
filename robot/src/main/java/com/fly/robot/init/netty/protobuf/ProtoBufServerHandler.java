@@ -1,5 +1,7 @@
-package com.fly.robot.init.netty;
+package com.fly.robot.init.netty.protobuf;
 
+import com.fly.robot.init.netty.ChannelHandlerUtil;
+import com.fly.robot.init.netty.NettyConfig;
 import com.fly.robot.init.netty.dto.BaseMsgOuterClass;
 import com.googlecode.protobuf.format.JsonFormat;
 import io.netty.channel.*;
@@ -9,28 +11,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @ChannelHandler.Sharable
-public class ServerHandler extends ChannelInboundHandlerAdapter {
-    private static Logger log = LoggerFactory.getLogger(ServerHandler.class);
+public class ProtoBufServerHandler extends ChannelInboundHandlerAdapter {
+    private static Logger log = LoggerFactory.getLogger(ProtoBufServerHandler.class);
     private int count = 0;
     @Override  
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
-        Channel incoming = ctx.channel();
-        ChannelId id = incoming.id();
-        String channelId = id.asLongText();
-        NettyConfig.channelMap.put(channelId, ctx);
-        System.out.println("[SERVER] - " + incoming.remoteAddress() + " 连接过来\n");  
-          
+        ChannelHandlerUtil.handlerAdded(ctx);
     }  
 
 
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
-        Channel incoming = ctx.channel();
-        NettyConfig.channelMap.remove(incoming.id());
-        System.out.println("[SERVER] - " + incoming.remoteAddress() + " 离开\n");
-        ctx.close();
-        // A closed Channel is automatically removed from ChannelGroup,
-        // so there is no need to do "channels.remove(ctx.channel());"
+        ChannelHandlerUtil.handlerRemoved(ctx);
     }
 
     @Override
@@ -63,20 +55,8 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        if (cause instanceof ReadTimeoutException) {
-            // do something
-            System.out.println("错误类型为：ReadTimeoutException");
-        }
-        Channel incoming = ctx.channel();
-        System.out.println("ChatClient:" + incoming.remoteAddress() + "报错");
+        ChannelHandlerUtil.exceptionCaught(ctx,cause);
         super.exceptionCaught(ctx, cause);
-        Channel channel = ctx.channel();
-        //……
-        if(channel.isActive()) {
-            ctx.close();
-        }
-
-        cause.printStackTrace();
     }
 
     @Override
@@ -86,7 +66,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         BaseMsgOuterClass.BaseMsg msg = (BaseMsgOuterClass.BaseMsg)obj;
         System.out.println("msg====="+ new JsonFormat().printToString(msg));
         try {
-            SocketHandler.handle(ctx,msg);
+            ProtoBufServiceHandler.handle(ctx,msg);
 
         }catch (Exception e){
             e.printStackTrace();

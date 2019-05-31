@@ -1,10 +1,14 @@
-package com.fly.robot.init.netty;
+package com.fly.robot.init.netty.websocket;
 
 import com.alibaba.fastjson.JSON;
+import com.fly.robot.init.netty.NettyConfig;
+import com.fly.robot.init.netty.dto.BaseMsg;
 import com.fly.robot.init.netty.dto.BaseMsgOuterClass;
+import com.fly.robot.init.netty.dto.BaseResult;
 import com.fly.robot.init.netty.dto.BaseResultOuterClass;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
@@ -12,22 +16,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@Service("socketHandler")
-public class SocketHandler {
+@Service("socketServiceHandler")
+public class SocketServiceHandler {
 
-	
+
 	private static Map<String,Method> methods;
-	private static final SocketHandler instance=new SocketHandler();
+	private static final SocketServiceHandler instance=new SocketServiceHandler();
 
 	public static class SingletonHolder{
 
-		private static SocketHandler singleton = new SocketHandler();
+		private static SocketServiceHandler singleton = new SocketServiceHandler();
 	}
-	public static SocketHandler newInstance() {
-		return SocketHandler.SingletonHolder.singleton;
+	public static SocketServiceHandler newInstance() {
+		return SocketServiceHandler.SingletonHolder.singleton;
 	}
-	
-	private SocketHandler(){
+
+	private SocketServiceHandler(){
 		methods=new HashMap<String,Method>();
 		Method[] ms=getClass().getMethods();
 		for(Method m:ms){
@@ -42,14 +46,14 @@ public class SocketHandler {
 	}
 	
 	public static void handle(ChannelHandlerContext ctx, Object obj) throws Exception{
-		BaseMsgOuterClass.BaseMsg msg = (BaseMsgOuterClass.BaseMsg)obj;
+		BaseMsg msg = (BaseMsg)obj;
 		String token = msg.getToken();
 		Method method=methods.get(msg.getMethod());
 
 	    String channelKey = "";
 		NettyConfig.channelMap.put(channelKey, ctx);
 		try {
-			final Object invoke = method.invoke(SocketHandler.getInstance(), new Object[]{ctx, msg});
+			final Object invoke = method.invoke(SocketServiceHandler.getInstance(), new Object[]{ctx, msg});
 
 		}catch (Exception e){
 
@@ -57,19 +61,23 @@ public class SocketHandler {
 		System.out.println("handle 完毕");
 	}
 	
-	public static SocketHandler getInstance(){
+	public static SocketServiceHandler getInstance(){
 		return instance;
 	}
 	
-	public static BaseResultOuterClass.BaseResult.Builder createBaseResult(int code, String info, String method){
-	    BaseResultOuterClass.BaseResult.Builder newBuilder = BaseResultOuterClass.BaseResult.newBuilder();
+	public static BaseResult createBaseResult(int code, String info, String method){
+		BaseResult newBuilder = new BaseResult();
         newBuilder.setCode(0);
         newBuilder.setData(info);
         newBuilder.setMethod(method);
         return newBuilder;
 	}
+
+	public static TextWebSocketFrame finalResult(int code, String info, String method){
+		return new TextWebSocketFrame(JSON.toJSONString(createBaseResult(code,info,method)));
+	}
 	public static void writeChannel(Channel channel, int code, String info, String method){
-		channel.writeAndFlush(createBaseResult(code, info, method));
+		channel.writeAndFlush(finalResult(code, info, method));
 	}
 	
 	/**-----------------------------------------具体的业务实现-------------------------------------------**/

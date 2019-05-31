@@ -1,4 +1,4 @@
-package com.fly.robot.init.netty;
+package com.fly.robot.init.netty.protobuf;
 
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandlerContext;
@@ -13,8 +13,7 @@ import java.util.Date;
   * @author fanglinan
   * @date 2019/5/30
   */
-@Deprecated
-public class ServerIdleStateTrigger extends ChannelInboundHandlerAdapter {
+public class ProtoBufServerIdleStateTrigger extends ChannelInboundHandlerAdapter {
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
@@ -23,7 +22,7 @@ public class ServerIdleStateTrigger extends ChannelInboundHandlerAdapter {
             if (event.state() == IdleState.READER_IDLE) {
                 // 在规定时间内没有收到客户端的上行数据, 主动断开连接
                 System.out.println(JSON.toJSONString(new Date())+"准备发送心跳"+ctx.name());
-                SocketHandler.writeChannel(ctx.channel(),0,"心跳","heart");
+                ProtoBufServiceHandler.writeChannel(ctx.channel(),0,"心跳","heart");
             }
         } else {
             super.userEventTriggered(ctx, evt);

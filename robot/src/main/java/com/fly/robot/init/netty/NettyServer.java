@@ -1,5 +1,7 @@
 package com.fly.robot.init.netty;
 
+import com.fly.robot.init.netty.websocket.SocketChannelHandler;
+import com.fly.robot.init.netty.websocket.SocketServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -9,7 +11,6 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 @Component
@@ -61,7 +62,7 @@ public class NettyServer {
                             protected void initChannel(SocketChannel sc) throws Exception {
                                 // 增加任务处理
                                 ChannelPipeline p = sc.pipeline();
-                                p.addLast(new ServerChannelHandler());
+                                p.addLast(new SocketChannelHandler());
                             }
                         });
 
@@ -86,11 +87,4 @@ public class NettyServer {
                     worker.shutdownGracefully();
                 }
     }
-
-    public void sendMessage(Object msg) {
-        if (channel != null) {
-            channel.writeAndFlush(msg);
-        }
-    }
-
 }
