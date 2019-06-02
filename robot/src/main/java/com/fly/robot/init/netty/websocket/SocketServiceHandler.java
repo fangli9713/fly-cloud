@@ -1,10 +1,10 @@
 package com.fly.robot.init.netty.websocket;
 
 import com.alibaba.fastjson.JSON;
+import com.fly.common.dto.BaseMsg;
+import com.fly.common.dto.BaseResult;
 import com.fly.robot.init.netty.NettyConfig;
-import com.fly.robot.init.netty.dto.BaseMsg;
 import com.fly.robot.init.netty.dto.BaseMsgOuterClass;
-import com.fly.robot.init.netty.dto.BaseResult;
 import com.fly.robot.init.netty.dto.BaseResultOuterClass;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;

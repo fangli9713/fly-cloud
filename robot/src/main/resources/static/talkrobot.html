@@ -11,13 +11,15 @@
 <button class="d-btn-cancel">取消连接</button>
 <button class="d-btn-reset">重启websocket</button>
 
-<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<!--<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>-->
+<script src="js/jquery-2.1.4/jquery.min.js" ></script>
 <script src="js/websocket.js" type="text/javascript"></script>
 <script>
     <!--ws://192.168.1.104:8031/ws-->
+    var wsUrl = "192.168.1.104:8031/ws";
     $.newSocket({
         socketIp: '',
-        wsUrl: '192.168.1.104:8031/ws',
+        wsUrl: wsUrl,
         sockUrl: '',
         openSendMsg: openSendMsg,
         sendMsg: sendMsg,
@@ -38,6 +40,10 @@
     function receiveMsg(event) {
         if (isJSON(event.data)) {
             var msgData = JSON.parse(event.data);
+            var code = msgData.code;
+            var data = msgData.data;
+            var method = msgData.method;
+
             console.log(msgData);
         } else {
             console.log(event.data);
@@ -71,7 +77,7 @@
 //            sockUrl: '/kf/webSocket/sockjs/message.htm',
 //            receiveMsg: receiveMsg
 //            socketIp: 'demo.serviceflows.cn',
-            wsUrl: 'ws://192.168.1.104:8031/ws',
+            wsUrl: wsUrl,
             sockUrl: null,
             sendMsg: sendMsg,
             receiveMsg: receiveMsg,
