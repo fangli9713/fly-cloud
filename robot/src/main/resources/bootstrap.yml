@@ -17,8 +17,6 @@ spring:
       max-file-size: 2Mb
       #总数据的大小
       max-request-size: 5Mb
-
-
 hystrix:
   command:
     default:
@@ -26,12 +24,10 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 660000
-
 logging:
   level:
     com.netflix: DEBUG
   file: log/gateway.log
-
 management:
   endpoints:
     web:
@@ -45,10 +41,8 @@ management:
   endpoint:
     health:
       show-details: always
-
 cors:
   enable: true
-
 info:
   status: ok
 #mybatis
