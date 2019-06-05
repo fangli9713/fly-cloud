@@ -10,7 +10,11 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.fly.cloud</groupId>
     <artifactId>robot</artifactId>
+    <packaging>pom</packaging>
     <version>1.0.0</version>
+    <modules>
+        <module>../finance</module>
+    </modules>
 
 
     <dependencies>
