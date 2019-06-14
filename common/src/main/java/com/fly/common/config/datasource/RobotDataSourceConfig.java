@@ -24,7 +24,7 @@ public class RobotDataSourceConfig{
     /**
      * 精确到 master 目录，以便跟其他数据源隔离
      */
-    static final String PACKAGE = "com.fly.gateway.dao.robot";
+    static final String PACKAGE = "com.fly.robot.dao";
     static final String MAPPER_LOCATION = "classpath*:mapper/robot/*.xml";
     static final String REF = "robotSqlSessionFactory";
 

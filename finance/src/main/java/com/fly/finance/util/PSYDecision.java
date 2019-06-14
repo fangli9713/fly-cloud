@@ -1,37 +1,46 @@
 package com.fly.finance.util;
 
-import com.fly.finance.dao.AshareDao;
-import com.fly.finance.dto.AshareTransaction;
-import com.fly.finance.dto.HistoryPrice;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.CollectionUtils;
+import com.fly.finance.entity.AshareHistory;
+import com.fly.finance.entity.AshareTransaction;
+import com.fly.finance.mapper.AshareHistoryMapper;
+import com.fly.finance.mapper.AshareTransactionMapper;
+import com.fly.finance.service.AshareHistoryService;
+import com.fly.finance.service.AshareTransactionService;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * 依据PSY对股票进行买入/卖出的决策
  */
 public class PSYDecision {
 
-    @Autowired
-    private AshareDao ashareDao;
+    @Resource
+    AshareHistoryMapper ashareHistoryMapper;
 
+    @Resource
+    AshareHistoryService ashareHistoryService;
+
+    @Resource
+    AshareTransactionService ashareTransactionService;
+
+    @Resource
+    AshareTransactionMapper ashareTransactionMapper;
 
     /**
      * 买入决策
      * 根据当前的数据 判断前两天的psy，
      */
-    public  void buyDecision(HistoryPrice historyPrice){
-        if(historyPrice.getPsy() == null || historyPrice.getPsy().doubleValue()>25){
+    public  void buyDecision(AshareHistory AshareHistory){
+        if(AshareHistory.getPsy() == null || AshareHistory.getPsy().doubleValue()>25){
             return;
         }
         //查询前一天的psy值
-        HistoryPrice param = new HistoryPrice();
-        param.setCode(historyPrice.getCode());
-        Date date = historyPrice.getDate();
+        AshareHistory param = new AshareHistory();
+        param.setCode(AshareHistory.getCode());
+        Date date = AshareHistory.getDate();
         Calendar cl = Calendar.getInstance();
         cl.setTime(date);
         cl.add(Calendar.DAY_OF_YEAR,-1);
@@ -39,32 +48,31 @@ public class PSYDecision {
         param.setDate((Date) time);
 
 
-        List<HistoryPrice> historyPrices = ashareDao.selectAshareHistoryPriceList(param);
-        if(CollectionUtils.isEmpty(historyPrices)){
+        AshareHistory a = ashareHistoryService.selectOneByCodeAndDate(AshareHistory.getCode(),param.getDate());
+        if(a == null){
             return;
         }
-        HistoryPrice historyPrice1 = historyPrices.get(0);
-        if(historyPrice1.getPsy() == null || historyPrice1.getPsy().doubleValue()>25){
+        if(a.getPsy() == null || a.getPsy().doubleValue()>25){
             return;
         }
 
         //查询该股是否已经进行过买入操作
         AshareTransaction transaction = new AshareTransaction();
-        transaction.setCode(historyPrice.getCode());
-        transaction.setDate(historyPrice.getDate());
-        List<AshareTransaction> ashareTransactions = ashareDao.selectAshareTransactionList(transaction);
-        if(!CollectionUtils.isEmpty(ashareTransactions)){
+        transaction.setCode(AshareHistory.getCode());
+        transaction.setDate(AshareHistory.getDate());
+        AshareTransaction ashareTransactions =ashareTransactionService.selectOneByCodeAndDate(AshareHistory.getCode(),AshareHistory.getDate());
+        if(ashareTransactions != null){
             return;
         }
         //执行买入
         //买入的价格
-        BigDecimal close = historyPrice.getClose();
+        BigDecimal close = AshareHistory.getClose();
         AshareTransaction ashareTransaction = new AshareTransaction();
-        ashareTransaction.setCode(historyPrice.getCode());
-        ashareTransaction.setDate(historyPrice.getDate());
+        ashareTransaction.setCode(AshareHistory.getCode());
+        ashareTransaction.setDate(AshareHistory.getDate());
         ashareTransaction.setPrice(close);
         ashareTransaction.setType(1);//买入
-        ashareDao.insertAshareTransaction(ashareTransaction);
+        ashareTransactionMapper.insert(ashareTransaction);
     }
 
 

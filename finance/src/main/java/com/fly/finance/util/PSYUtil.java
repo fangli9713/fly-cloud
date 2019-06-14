@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fly.common.util.http.HttpUtil;
-import com.fly.finance.dto.HistoryPrice;
+import com.fly.finance.entity.AshareHistory;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
@@ -20,11 +20,11 @@ public class PSYUtil {
 
 
     public static void main(String[] args) {
-        final List<HistoryPrice> psyAndMA = getPSYAndMA("002024");
+        final List<AshareHistory> psyAndMA = getPSYAndMA("002024");
         System.out.println(psyAndMA);
     }
 
-    public static List<HistoryPrice>  getPSYAndMA(String code){
+    public static List<AshareHistory>  getPSYAndMA(String code){
 
         StringBuilder builder = new StringBuilder(BASE_URL);
         builder.append("&code=").append(code);
@@ -40,7 +40,7 @@ public class PSYUtil {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         builder.append(sdf.format(start));
         builder.append("&end_date=").append(sdf.format(end));
-        List<HistoryPrice> insertList = new ArrayList<>();
+        List<AshareHistory> insertList = new ArrayList<>();
 
         try {
             final String s = HttpUtil.doRequest(builder.toString(), null, null);
@@ -51,13 +51,13 @@ public class PSYUtil {
                 return null;
             }
             final JSONArray data = (JSONArray)map.get("data");
-            final List<HistoryPrice> list = JSONObject.parseArray(data.toJSONString(), HistoryPrice.class);
-            final LinkedList<HistoryPrice> dataList = new LinkedList<>(list);
+            final List<AshareHistory> list = JSONObject.parseArray(data.toJSONString(), AshareHistory.class);
+            final LinkedList<AshareHistory> dataList = new LinkedList<>(list);
             while (true){
                     final BigDecimal psy = getPSY(dataList);
                     if(psy==null)
                         break;
-                final HistoryPrice map1 = dataList.removeLast();
+                final AshareHistory map1 = dataList.removeLast();
                 map1.setPsy(psy);
                 map1.setAlias(map1.getCode());
                 map1.setCode(code);
@@ -70,7 +70,7 @@ public class PSYUtil {
         return insertList;
     }
 
-    public static BigDecimal getPSY(List<HistoryPrice> dataList){
+    public static BigDecimal getPSY(List<AshareHistory> dataList){
         if(CollectionUtils.isEmpty(dataList) || dataList.size()<12){
             return null;
         }
@@ -85,14 +85,14 @@ public class PSYUtil {
             }
             count -=1;
 
-            final HistoryPrice data = dataList.get(i);
+            final AshareHistory data = dataList.get(i);
 
             BigDecimal clo = data.getClose();
             lt.addFirst(clo);
             //获取前一天的数据
             BigDecimal clo1 = null;
             if(i>1){
-                final HistoryPrice data1 = dataList.get(i-1);
+                final AshareHistory data1 = dataList.get(i-1);
                 clo1 = data1.getClose();
             }
             if(clo1!=null){

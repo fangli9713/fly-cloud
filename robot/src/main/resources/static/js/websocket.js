@@ -117,7 +117,7 @@
             }
             if (ws.readyState == 1) {
                 var msg = originThis.opts.openSendMsg();
-                if (!msg) {
+                if (msg == 'open') {
                     var openTimeSpe = curTime();
                     console.log('onopen()：连接成功，' + openTimeSpe);
                     msg = '打开时间:' + openTimeSpe;

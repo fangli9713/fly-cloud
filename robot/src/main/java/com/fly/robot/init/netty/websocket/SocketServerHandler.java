@@ -60,7 +60,10 @@ public class SocketServerHandler extends SimpleChannelInboundHandler<TextWebSock
         log.info("收到客户端消息=="+text);
       if("heartbeat".equalsIgnoreCase(text)){
           SocketServiceHandler.writeChannel(ctx.channel(),0,"1","heart");
+          return;
       }
+      //调用机器人
+
         try {
         //    SocketHandler.handle(ctx,msg);
 

@@ -37,7 +37,7 @@ public class DruidConfig {
         Properties prop = build(env, "spring.datasource.druid.", "main.");
         ds.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
         ds.setUniqueResourceName("mainDB");
-        ds.setPoolSize(5);
+        ds.setPoolSize(20);
         ds.setXaProperties(prop);
         return ds;
     }
@@ -49,7 +49,7 @@ public class DruidConfig {
         Properties prop = build(env, "spring.datasource.druid.", "robot.");
         ds.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
         ds.setUniqueResourceName("robotDB");
-        ds.setPoolSize(5);
+        ds.setPoolSize(20);
         ds.setXaProperties(prop);
         return ds;
     }

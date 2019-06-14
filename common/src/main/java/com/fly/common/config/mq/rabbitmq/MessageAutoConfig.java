@@ -10,21 +10,21 @@ import org.springframework.context.annotation.Bean;
  */
 public class MessageAutoConfig {
 
-    @Bean
-    @ConditionalOnMissingBean
+//    @Bean
+//    @ConditionalOnMissingBean
     RabbitManager rabbitManager(@Autowired RabbitProperties properties, @Autowired MessageCache messageCache,
                                 @Autowired RetryStrategy strategy) {
         return new RabbitManager(properties, messageCache, strategy);
     }
 
-    @Bean
-    @ConditionalOnMissingBean
+//    @Bean
+//    @ConditionalOnMissingBean
     MessageCache messageCache() {
         return new MemoryMessageCache();
     }
 
-    @Bean
-    @ConditionalOnMissingBean
+//    @Bean
+//    @ConditionalOnMissingBean
     RetryStrategy retryStrategy() {
         return new DefaultRetryStrategy();
     }

@@ -2,7 +2,7 @@ service:
   registry:
     #本机的地址和本项目的端口 本地开发时负载均衡优先路由到本地
     expose-host: ${expose.host:192.168.3.45}
-    expose-port: ${expose.port:9702}
+    expose-port: ${expose.port:9701}
     #注册中心的地址和注册中心的端口号 一般设置为服务器的地址
     consul-host: ${consul.host:47.106.153.232}
     consul-port: ${consul.port:8500}
@@ -20,9 +20,9 @@ spring:
         url: jdbc:mysql://47.106.153.232:3306/fly_robot?useUnicode=true&characterEncoding=utf8
         username: fangln
         password: fangln1991!
-      initialSize: 5
-      minIdle: 5
-      maxActive: 100
+      initialSize: 1
+      minIdle: 3
+      maxActive: 20
       # 配置获取连接等待超时的时间
       maxWait: 60000
       # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
