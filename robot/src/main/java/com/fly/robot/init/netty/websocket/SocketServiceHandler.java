@@ -1,18 +1,26 @@
 package com.fly.robot.init.netty.websocket;
 
 import com.alibaba.fastjson.JSON;
+import com.fly.common.core.convert.DataResultBuild;
 import com.fly.common.dto.BaseMsg;
 import com.fly.common.dto.BaseResult;
+import com.fly.common.util.http.HttpUtil;
 import com.fly.robot.init.netty.NettyConfig;
 import com.fly.robot.init.netty.dto.BaseMsgOuterClass;
 import com.fly.robot.init.netty.dto.BaseResultOuterClass;
+import com.fly.robot.vo.Result;
+import com.fly.robot.vo.RobotRequest;
+import com.fly.robot.vo.RobotResponse;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -81,7 +89,38 @@ public class SocketServiceHandler {
 	}
 	
 	/**-----------------------------------------具体的业务实现-------------------------------------------**/
-	
+
+	public static final String apiUrl = "http://openapi.tuling123.com/openapi/api/v2";
+
+	public static String talk(String word) {
+		if(StringUtils.isEmpty(word)){
+			return null;
+		}
+		RobotRequest request = new RobotRequest();
+		final RobotRequest.Perception perception = request.getPerception();
+		perception.inputText.put("text",word);
+		try {
+
+			final String s = HttpUtil.doJsonRquest(apiUrl, null, JSON.toJSONString(request));
+			System.out.println("收到消息"+s);
+			RobotResponse robotResponse = JSON.parseObject(s, RobotResponse.class);
+			List<Result> results = robotResponse.getResults();
+			if(!CollectionUtils.isEmpty(results)){
+				Result result = results.get(0);
+				Object res = result.getValues().get("text");
+				if(!StringUtils.isEmpty(res)){
+					return res.toString();
+				}
+
+			}
+//            {"emotion":{"robotEmotion":{"a":0,"d":0,"emotionId":0,"p":0},"userEmotion":{"a":0,"d":0,"emotionId":21500,"p":0}},"intent":{"actionName":"","code":10004,"intentName":""},"results":[{"groupType":1,"resultType":"text","values":{"text":"特朗普是最爱发推特的总统。"}}]}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+
 	/**
 	 * 接收合作方上传的入场记录
 	 * @return

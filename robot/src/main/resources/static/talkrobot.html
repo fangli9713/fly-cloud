@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<div id="output" style="width: 50%;height: 300px">
+<div id="output" style="width: 50%;height: 300px;overflow:auto">
 
 
 </div>
@@ -16,7 +16,7 @@
 <input id="talk" >
 <button class="d-btn-send">发送消息</button>
 <!--<button class="d-btn-cancel">取消连接</button>-->
-<button class="d-btn-reset">重新连接</button>
+<!--<button class="d-btn-reset">重新连接</button>-->
 
 <!--<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>-->
 <script src="js/jquery-2.1.4/jquery.min.js" ></script>
@@ -25,7 +25,7 @@
     <!--ws://192.168.1.104:8031/ws-->
 
 
-    var wsUrl = "192.168.3.45:8031/ws";
+    var wsUrl = "192.168.1.103:8031/ws";
     $.newSocket({
         socketIp: '',
         wsUrl: wsUrl,
@@ -45,6 +45,7 @@
             var msg = $("#talk").val();
             ws.send(msg);
             $("#talk").val("");
+            $("#output").append("<p>"+msg+"</p>")
         })
     }
     // 函数：接收onmessage消息
@@ -58,7 +59,7 @@
             console.log(msgData);
 
             if(method != "heart"){
-                $("#output").appendChild(data);
+                $("#output").append("<p>"+data+"</p>")
             }
         } else {
             console.log(event.data);

@@ -9,12 +9,17 @@ import java.util.Map;
 public class RobotRequest {
 
     private Integer reqType = 0;
-    private Perception perception;
+    private Perception perception = new Perception();
 
-    private static Map<String,String> userInfo = new HashMap<>();
-    static {
+    private Map<String,String> userInfo = new HashMap<>();
+
+    public RobotRequest() {
         userInfo.put("apiKey","2439b272298e49ccbb085aeb1abc6529");
         userInfo.put("userId","1001");
+    }
+
+    static {
+
     }
 
     public static class Perception{

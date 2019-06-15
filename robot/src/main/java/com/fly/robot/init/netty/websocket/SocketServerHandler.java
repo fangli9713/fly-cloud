@@ -2,15 +2,22 @@ package com.fly.robot.init.netty.websocket;
 
 import com.fly.robot.init.netty.ChannelHandlerUtil;
 import com.fly.robot.init.netty.NettyConfig;
+import com.fly.robot.service.TuRingRobotService;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.timeout.ReadTimeoutException;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
+import javax.annotation.Resource;
 
 @ChannelHandler.Sharable
 @Slf4j
+@Component
 public class SocketServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
@@ -54,19 +61,27 @@ public class SocketServerHandler extends SimpleChannelInboundHandler<TextWebSock
         super.exceptionCaught(ctx, cause);
     }
 
+
     @Override
     public void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame obj) throws Exception {
         final String text = obj.text();
         log.info("收到客户端消息=="+text);
-      if("heartbeat".equalsIgnoreCase(text)){
-          SocketServiceHandler.writeChannel(ctx.channel(),0,"1","heart");
+        Channel channel = ctx.channel();
+        if("heartbeat".equalsIgnoreCase(text)){
+          SocketServiceHandler.writeChannel(channel,0,"1","heart");
           return;
       }
       //调用机器人
 
         try {
         //    SocketHandler.handle(ctx,msg);
-
+            String talk = SocketServiceHandler.talk(text);
+            if(!StringUtils.isEmpty(talk)){
+                SocketServiceHandler.writeChannel(channel,0,talk,"talk");
+            }else{
+                SocketServiceHandler.writeChannel(channel,0,"暂时无法回答你的问题，明天再试试吧。","talk");
+            }
+            return;
         }catch (Exception e){
             e.printStackTrace();
         }finally {

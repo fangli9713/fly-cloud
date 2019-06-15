@@ -120,7 +120,7 @@
                 if (msg == 'open') {
                     var openTimeSpe = curTime();
                     console.log('onopen()：连接成功，' + openTimeSpe);
-                    msg = '打开时间:' + openTimeSpe;
+                    msg = 'HeartBeat';
                 }
                 ws.send(msg);
             }
