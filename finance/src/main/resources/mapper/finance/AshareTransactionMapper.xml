@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fly.finance.mapper.AshareTransactionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.fly.finance.entity.AshareTransaction">
+        <id column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="date" property="date" />
+        <result column="type" property="type" />
+        <result column="price" property="price" />
+        <result column="win_day" property="winDay" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, code, date, type, price, win_day, create_time
+    </sql>
+
+</mapper>
