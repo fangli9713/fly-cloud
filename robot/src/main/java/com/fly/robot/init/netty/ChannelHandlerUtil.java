@@ -8,13 +8,13 @@ public class ChannelHandlerUtil {
 
     public static void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         NettyConfig.channelMap.put(getChannelId(ctx), ctx);
-        System.out.println("[SERVER] - " + ctx.channel().remoteAddress() + " 连接过来\n");
+        System.out.println("[CLIENT] - " +getChannelId(ctx) + "-"+ ctx.channel().remoteAddress() + " 连接过来\n");
     }
 
     public static void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
         Channel incoming = ctx.channel();
-        NettyConfig.channelMap.remove(incoming.id());
-        System.out.println("[SERVER] - " + incoming.remoteAddress() + " 离开\n");
+        NettyConfig.channelMap.remove(getChannelId(ctx));
+        System.out.println("[CLIENT] - " + getChannelId(ctx) + "-"+ incoming.remoteAddress() + " 离开\n");
         ctx.close();
 
     }
