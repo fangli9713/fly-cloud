@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 /**
@@ -18,18 +20,19 @@ import javax.sql.DataSource;
   * @date 2019/5/28
   */
 @Configuration
-@MapperScan(basePackages = RobotDataSourceConfig.PACKAGE, sqlSessionFactoryRef = RobotDataSourceConfig.REF)
-public class RobotDataSourceConfig{
+@Import(DruidConfig.class)
+@MapperScan(basePackages = MainDataSourceConfig.PACKAGE, sqlSessionFactoryRef = MainDataSourceConfig.REF)
+public class MainDataSourceConfig {
 
     /**
      * 精确到 master 目录，以便跟其他数据源隔离
      */
-    static final String PACKAGE = "com.fly.robot.dao";
-    static final String MAPPER_LOCATION = "classpath*:mapper/robot/*.xml";
-    static final String REF = "robotSqlSessionFactory";
+    static final String PACKAGE = "com.fly.finance.dao";
+    static final String MAPPER_LOCATION = "classpath*:mapper/finance/*.xml";
+    static final String REF = "mainSqlSessionFactory";
 
     @Bean
-    public SqlSessionFactory robotSqlSessionFactory()
+    public SqlSessionFactory mainSqlSessionFactory()
             throws Exception {
         final SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(ds);
@@ -37,18 +40,16 @@ public class RobotDataSourceConfig{
                 .getResources(MAPPER_LOCATION));
         return sessionFactory.getObject();
     }
-
     @Bean
-    public SqlSessionTemplate sqlSessionTemplate2() throws Exception {
+    public SqlSessionTemplate sqlSessionTemplate() throws Exception {
         // 使用上面配置的Factory
-        SqlSessionTemplate template = new SqlSessionTemplate(robotSqlSessionFactory());
+        SqlSessionTemplate template = new SqlSessionTemplate(mainSqlSessionFactory());
         return template;
     }
 
-    @Autowired
-    @Qualifier("robotDataSource")
-    private DataSource ds;
 
+    @Resource(name = "mainDataSource")
+    private DataSource ds;
 
 
 

@@ -18,8 +18,7 @@
     
     <modules>
         <module>gateway</module>
-        <module>auth</module>
-        <module>common</module>
+        <module>framework-parent</module>
         <module>robot</module>
         <module>finance</module>
     </modules>
@@ -46,6 +45,7 @@
             <artifactId>spring-cloud-starter-consul-discovery</artifactId>
             <version>${consul.discovery.version}</version>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/com.netflix.archaius/archaius-core -->
         <dependency>
             <groupId>com.netflix.archaius</groupId>
@@ -105,6 +105,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.39</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -124,6 +125,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jta-atomikos</artifactId>
+
         </dependency>
 
         <!--mybatis-plus-->
@@ -142,23 +144,6 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-        </dependency>
-
-        <!--swagger-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${swagger2.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${swagger2.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-bean-validators</artifactId>
-            <version>${swagger2.version}</version>
         </dependency>
 
         <!--lombok-->

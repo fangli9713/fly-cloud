@@ -13,6 +13,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.transaction.jta.JtaTransactionManager;
@@ -29,10 +30,11 @@ import java.util.Properties;
 @Configuration
 public class DruidConfig {
 
-    @Bean(name = "mainDataSource")
+
     @Primary
     @Autowired
-    public DataSource systemDataSource(Environment env) {
+    @Bean(name = "mainDataSource")
+    public DataSource mainDataSource(Environment env) {
         AtomikosDataSourceBean ds = new AtomikosDataSourceBean();
         Properties prop = build(env, "spring.datasource.druid.", "main.");
         ds.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
@@ -44,7 +46,7 @@ public class DruidConfig {
 
     @Autowired
     @Bean(name = "robotDataSource")
-    public AtomikosDataSourceBean businessDataSource(Environment env) {
+    public AtomikosDataSourceBean robotDataSource(Environment env) {
         AtomikosDataSourceBean ds = new AtomikosDataSourceBean();
         Properties prop = build(env, "spring.datasource.druid.", "robot.");
         ds.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
@@ -60,7 +62,7 @@ public class DruidConfig {
      * @return
      */
     @Bean(name = "xaTransactionManager")
-    public JtaTransactionManager regTransactionManager() {
+    public JtaTransactionManager xaTransactionManager() {
         UserTransactionManager userTransactionManager = new UserTransactionManager();
         UserTransaction userTransaction = new UserTransactionImp();
         return new JtaTransactionManager(userTransaction, userTransactionManager);
@@ -91,44 +93,45 @@ public class DruidConfig {
                 env.getProperty(prefix + "timeBetweenEvictionRunsMillis", Integer.class));
         prop.put("minEvictableIdleTimeMillis", env.getProperty(prefix + "minEvictableIdleTimeMillis", Integer.class));
         prop.put("filters", env.getProperty(prefix + "filters"));
+        prop.put("connectionProperties",env.getProperty(prefix+"connectionProperties"));
         return prop;
     }
 
-    @Bean
-    public ServletRegistrationBean druidServlet() {
-        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
-        //控制台管理用户，加入下面2行 进入druid后台就需要登录
-        //servletRegistrationBean.addInitParameter("loginUsername", "admin");
-        //servletRegistrationBean.addInitParameter("loginPassword", "admin");
-        return servletRegistrationBean;
-    }
-
-    @Bean
-    public FilterRegistrationBean filterRegistrationBean() {
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
-        filterRegistrationBean.setFilter(new WebStatFilter());
-        filterRegistrationBean.addUrlPatterns("/*");
-        filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
-        filterRegistrationBean.addInitParameter("profileEnable", "true");
-        return filterRegistrationBean;
-    }
-
-    @Bean
-    public StatFilter statFilter() {
-        StatFilter statFilter = new StatFilter();
-        statFilter.setLogSlowSql(true); //slowSqlMillis用来配置SQL慢的标准，执行时间超过slowSqlMillis的就是慢。
-        statFilter.setMergeSql(true); //SQL合并配置
-        statFilter.setSlowSqlMillis(1000);//slowSqlMillis的缺省值为3000，也就是3秒。
-        return statFilter;
-    }
-
-    @Bean
-    public WallFilter wallFilter() {
-        WallFilter wallFilter = new WallFilter();
-        //允许执行多条SQL
-        WallConfig config = new WallConfig();
-        config.setMultiStatementAllow(true);
-        wallFilter.setConfig(config);
-        return wallFilter;
-    }
+//    @Bean
+//    public ServletRegistrationBean druidServlet() {
+//        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
+//        //控制台管理用户，加入下面2行 进入druid后台就需要登录
+//        //servletRegistrationBean.addInitParameter("loginUsername", "admin");
+//        //servletRegistrationBean.addInitParameter("loginPassword", "admin");
+//        return servletRegistrationBean;
+//    }
+//
+//    @Bean
+//    public FilterRegistrationBean filterRegistrationBean() {
+//        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+//        filterRegistrationBean.setFilter(new WebStatFilter());
+//        filterRegistrationBean.addUrlPatterns("/*");
+//        filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
+//        filterRegistrationBean.addInitParameter("profileEnable", "true");
+//        return filterRegistrationBean;
+//    }
+//
+//    @Bean
+//    public StatFilter statFilter() {
+//        StatFilter statFilter = new StatFilter();
+//        statFilter.setLogSlowSql(true); //slowSqlMillis用来配置SQL慢的标准，执行时间超过slowSqlMillis的就是慢。
+//        statFilter.setMergeSql(true); //SQL合并配置
+//        statFilter.setSlowSqlMillis(1000);//slowSqlMillis的缺省值为3000，也就是3秒。
+//        return statFilter;
+//    }
+//
+//    @Bean
+//    public WallFilter wallFilter() {
+//        WallFilter wallFilter = new WallFilter();
+//        //允许执行多条SQL
+//        WallConfig config = new WallConfig();
+//        config.setMultiStatementAllow(true);
+//        wallFilter.setConfig(config);
+//        return wallFilter;
+//    }
 }

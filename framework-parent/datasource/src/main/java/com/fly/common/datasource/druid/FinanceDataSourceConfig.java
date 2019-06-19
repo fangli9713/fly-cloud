@@ -45,9 +45,6 @@ public class FinanceDataSourceConfig {
 //        return template;
 //    }
 
-    @Autowired
-    @Qualifier("financeDataSource")
-    private DataSource ds;
 
 
 

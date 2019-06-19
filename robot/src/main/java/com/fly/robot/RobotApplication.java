@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @RefreshScope
 @EnableAsync
-@EnableCorsConfiguration
+//@EnableCorsConfiguration
 @EnableDruidSourceConfiguration
 @Slf4j
 public class RobotApplication implements CommandLineRunner {
