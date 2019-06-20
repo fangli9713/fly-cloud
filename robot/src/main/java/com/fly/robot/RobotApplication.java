@@ -1,6 +1,5 @@
 package com.fly.robot;
 
-import com.fly.common.annotation.EnableCorsConfiguration;
 import com.fly.common.annotation.EnableDruidSourceConfiguration;
 import com.fly.robot.init.netty.NettyServer;
 import lombok.extern.slf4j.Slf4j;

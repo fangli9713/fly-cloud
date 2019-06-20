@@ -21,7 +21,11 @@
             <artifactId>common</artifactId>
             <version>0.1.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.fly.cloud</groupId>
+            <artifactId>datasource</artifactId>
+            <version>1.0.0</version>
+        </dependency>
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>

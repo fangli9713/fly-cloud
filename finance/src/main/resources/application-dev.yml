@@ -9,7 +9,7 @@ service:
 
 spring:
   datasource:
-    name: main
+    name: main0
     url: jdbc:mysql://47.106.153.232:3306/dd_main0?useUnicode=true&characterEncoding=utf8
     username: fangln
     password: fangln1991!
@@ -37,26 +37,26 @@ spring:
         query-passing: true
         prefer-ip-address: true
 
-  rabbitmq:
-    addresses: 192.168.4.202:5672
-    username: admin
-    password: poly2017
-    virtual-host: /
-    connection-timeout: 120000
-    publisher-confirms: true
-    publisher-returns: true
-    template:
-      mandatory: true
-    listener:
-      simple:
-        acknowledge-mode: manual  #none不发送ack。manual手工签收。auto自动ack
-        concurrency: 5  #最小消费者数量
-        max-concurrency: 10  #最大消费者数量
+#  rabbitmq:
+#    addresses: 192.168.4.202:5672
+#    username: admin
+#    password: poly2017
+#    virtual-host: /
+#    connection-timeout: 120000
+#    publisher-confirms: true
+#    publisher-returns: true
+#    template:
+#      mandatory: true
+#    listener:
+#      simple:
+#        acknowledge-mode: manual  #none不发送ack。manual手工签收。auto自动ack
+#        concurrency: 5  #最小消费者数量
+#        max-concurrency: 10  #最大消费者数量
 #  redis:
 #    database: 0
 #    host: 192.168.4.205
 #    port: 6379
 
-token:
-  jwtSecret: propertyCloud2019  #jwt secret
+#token:
+#  jwtSecret: propertyCloud2019  #jwt secret
 

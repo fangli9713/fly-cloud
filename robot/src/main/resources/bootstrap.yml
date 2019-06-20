@@ -27,7 +27,7 @@ hystrix:
 logging:
   level:
     com.netflix: DEBUG
-  file: log/gateway.log
+  file: log/robot.log
 management:
   endpoints:
     web:
