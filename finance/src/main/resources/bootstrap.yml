@@ -10,7 +10,7 @@ spring:
     name: finance
     group: com.fly
   jta:
-    logDir: log/financeTx.log
+    logDir: log/financeTx-log
   servlet:
     multipart:
       enabled: true

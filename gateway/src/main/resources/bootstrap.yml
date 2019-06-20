@@ -9,6 +9,8 @@ spring:
   application:
     name: gateway
     group: com.fly
+  jta:
+    logDir: log/gatewayTx-log
   servlet:
     multipart:
       enabled: true
