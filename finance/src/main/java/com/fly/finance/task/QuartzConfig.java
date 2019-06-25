@@ -51,7 +51,9 @@ public class QuartzConfig {
     @Resource
     AshareTransactionMapper ashareTransactionMapper;
 
-    @Scheduled(cron = "0 0 0 * * ?")
+
+//    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 0/10 * * * ?")
     protected void dayPrice() {
         final QueryWrapper<AshareList> wrapper = new QueryWrapper<>();
         final List<AshareList> ashareLists = ashareListMapper.selectList(wrapper);
@@ -74,7 +76,7 @@ public class QuartzConfig {
         }
     }
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 0/10 * * * ?")
     protected void buyAshare() {
         System.out.println("进入AshareDecisionTask:");
         AshareHistory param = new AshareHistory();
@@ -122,7 +124,7 @@ public class QuartzConfig {
         System.out.println("任务结束");
     }
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 0/10 * * * ?")
     protected void winDay() {
         System.out.println("AshareSellDecisionTask:");
         Wrapper<AshareTransaction> query = new QueryWrapper<>();

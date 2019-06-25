@@ -9,8 +9,8 @@ service:
 
 spring:
   datasource:
-    name: main0
-    url: jdbc:mysql://47.106.153.232:3306/dd_main0?useUnicode=true&characterEncoding=utf8
+    name: finance
+    url: jdbc:mysql://47.106.153.232:3306/fly_finance?useUnicode=true&characterEncoding=utf8
     username: fangln
     password: fangln1991!
     driver-class-name: com.mysql.jdbc.Driver
