@@ -12,6 +12,7 @@
     <artifactId>finance</artifactId>
     <version>1.0.0</version>
     <name>finance</name>
+    <packaging>jar</packaging>
     <description>金融</description>
 
 

@@ -12,6 +12,7 @@
     <artifactId>robot</artifactId>
     <version>1.0.0</version>
     <name>robot</name>
+    <packaging>jar</packaging>
     <description>机器人</description>
 
 

@@ -9,7 +9,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <groupId>com.fly.cloud</groupId>
     <artifactId>datasource</artifactId>
 
