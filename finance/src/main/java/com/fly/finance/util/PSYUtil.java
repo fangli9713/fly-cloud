@@ -61,6 +61,7 @@ public class PSYUtil {
                 map1.setPsy(psy);
                 map1.setAlias(map1.getCode());
                 map1.setCode(code);
+                map1.setCreateTime(new Date());
                 insertList.add(map1);
                 }
 

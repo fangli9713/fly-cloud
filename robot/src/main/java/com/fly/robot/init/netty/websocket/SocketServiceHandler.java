@@ -1,7 +1,6 @@
 package com.fly.robot.init.netty.websocket;
 
 import com.alibaba.fastjson.JSON;
-import com.fly.common.core.convert.DataResultBuild;
 import com.fly.common.dto.BaseMsg;
 import com.fly.common.dto.BaseResult;
 import com.fly.common.util.http.HttpUtil;

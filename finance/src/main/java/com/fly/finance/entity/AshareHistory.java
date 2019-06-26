@@ -85,7 +85,7 @@ public class AshareHistory implements Serializable {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private java.util.Date createTime;
 
 
 }
