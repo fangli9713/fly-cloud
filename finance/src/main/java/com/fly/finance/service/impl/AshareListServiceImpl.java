@@ -1,5 +1,6 @@
 package com.fly.finance.service.impl;
 
+import com.fly.common.core.convert.DataResult;
 import com.fly.finance.entity.AshareList;
 import com.fly.finance.mapper.AshareListMapper;
 import com.fly.finance.service.AshareListService;
@@ -17,4 +18,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AshareListServiceImpl extends ServiceImpl<AshareListMapper, AshareList> implements AshareListService {
 
+    @Override
+    public DataResult today() {
+        return null;
+    }
 }

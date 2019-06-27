@@ -21,7 +21,7 @@ import java.util.Map;
 public class MybatisPlusGenerator {
 
 
-    static final String TABLE_NAME = "ashare_transaction";
+    static final String TABLE_NAME = "ashare_recommend";
     // final String MODULE_NAME = "charge";
     static final String AUTHOR = "fanglinan";
 
@@ -41,13 +41,14 @@ public class MybatisPlusGenerator {
         globalConfig.setBaseResultMap(true);  //生成BaseResultMap
         globalConfig.setBaseColumnList(true);  //生成BaseColumnList
         globalConfig.setServiceName("%sService");  //自定义service接口名
+        globalConfig.setMapperName("%sMapper");
         globalConfig.setAuthor(AUTHOR);
         globalConfig.setDateType(DateType.ONLY_DATE);  //使用java.util.Date
         autoGenerator.setGlobalConfig(globalConfig);
 
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://47.106.153.232:3306/dd_main0?useUnicode=true&useSSL=false&characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://47.106.153.232:3306/fly_finance?useUnicode=true&useSSL=false&characterEncoding=utf8");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("fangln");
         dsc.setPassword("fangln1991!");

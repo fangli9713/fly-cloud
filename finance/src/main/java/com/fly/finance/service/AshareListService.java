@@ -1,5 +1,6 @@
 package com.fly.finance.service;
 
+import com.fly.common.core.convert.DataResult;
 import com.fly.finance.entity.AshareList;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface AshareListService extends IService<AshareList> {
 
+    DataResult today();
 }
