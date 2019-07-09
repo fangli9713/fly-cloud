@@ -52,8 +52,8 @@ public class QuartzConfig {
     AshareTransactionMapper ashareTransactionMapper;
 
 
-    @Scheduled(cron = "0 0 0 * * ?")
-//    @Scheduled(cron = "0 0/10 * * * ?")
+//    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 0/10 * * * ?")
     protected void dayPrice() {
         final QueryWrapper<AshareList> wrapper = new QueryWrapper<>();
         final List<AshareList> ashareLists = ashareListMapper.selectList(wrapper);
@@ -62,12 +62,12 @@ public class QuartzConfig {
         }
         for (AshareList a :ashareLists){
             //先判断该票今天跑了没
-            QueryWrapper<AshareList> query = new QueryWrapper<>();
-            query.lambda().eq(AshareList::getCode,a.getCode());
-            final Integer count = ashareListMapper.selectCount(query);
-            if(count>0){
-                continue;
-            }
+//            QueryWrapper<AshareList> query = new QueryWrapper<>();
+//            query.lambda().eq(AshareList::getCode,a.getCode());
+//            final Integer count = ashareListMapper.selectCount(query);
+//            if(count>0){
+//                continue;
+//            }
             final List<AshareHistory> psyAndMA = PSYUtil.getPSYAndMA(a.getCode());
             if(CollectionUtils.isEmpty(psyAndMA)){
                 continue;
