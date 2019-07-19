@@ -1,9 +1,9 @@
 package com.fly.robot;
 
 import com.fly.common.annotation.EnableDruidSourceConfiguration;
-import com.fly.robot.init.netty.NettyServer;
+import com.fly.common.netty.NettyServer;
+import com.fly.robot.init.ProtoBufServerHandler;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -34,8 +34,6 @@ public class RobotApplication implements CommandLineRunner {
     @Value("${spring.profiles.active}")
     private String active;
 
-    @Autowired
-    NettyServer nettyServer;
 
     public static void main(String[] args) {
         SpringApplication.run(RobotApplication.class, args);
@@ -44,7 +42,12 @@ public class RobotApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        log.error("robot服务启动成功,当前运行环境-------->" + active);
-        nettyServer.start();
+        log.info("robot服务启动成功,当前运行环境-------->" + active);
+        NettyServer.getInstance().start(8031,new ProtoBufServerHandler());
     }
+
+//    @Bean
+//    public ExitCodeGenerator exitCodeGenerator(){
+//
+//    }
 }

@@ -9,10 +9,14 @@ import com.fly.finance.service.AshareHistoryService;
 import com.fly.finance.service.AshareListService;
 import com.fly.finance.service.AshareRecommendService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fly.finance.vo.RecommendVO;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -36,7 +40,7 @@ public class AshareRecommendServiceImpl extends ServiceImpl<AshareRecommendMappe
     AshareHistoryService ashareHistoryService;
 
     /**
-     * 每日推荐
+     * 每日推荐任务
      *
      * @return
      */
@@ -70,5 +74,25 @@ public class AshareRecommendServiceImpl extends ServiceImpl<AshareRecommendMappe
         }
 
         return true;
+    }
+
+    @Override
+    public List<RecommendVO> selectTodayRecommend() {
+        QueryWrapper<AshareRecommend> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(AshareRecommend::getDate,new Date(System.currentTimeMillis()));
+
+        final List<AshareRecommend> ashareRecommends = ashareRecommendMapper.selectList(wrapper);
+        if(CollectionUtils.isEmpty(ashareRecommends)){
+            return Lists.newArrayList();
+        }
+        List<RecommendVO> list = new ArrayList<>();
+        for (AshareRecommend a:ashareRecommends) {
+            final String code = a.getCode();
+            RecommendVO vo = new RecommendVO();
+            vo.setCode(code);
+            vo.setDate(a.getDate());
+            list.add(vo);
+        }
+        return list;
     }
 }

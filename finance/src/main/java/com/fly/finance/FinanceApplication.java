@@ -1,5 +1,7 @@
 package com.fly.finance;
 
+import com.fly.common.netty.NettyServer;
+import com.fly.finance.util.ProtoBufServerHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -28,9 +30,9 @@ public class FinanceApplication implements CommandLineRunner {
         SpringApplication.run(FinanceApplication.class, args);
     }
 
-
     @Override
     public void run(String... args) throws Exception {
-        log.error("finance服务启动成功,当前运行环境-------->" + active);
+        log.info("finance服务启动成功,当前运行环境-------->" + active);
+        NettyServer.getInstance().start(8032, new ProtoBufServerHandler());
     }
 }

@@ -53,7 +53,7 @@ public class QuartzConfig {
 
 
 //    @Scheduled(cron = "0 0 0 * * ?")
-    @Scheduled(cron = "0 0/10 * * * ?")
+    @Scheduled(cron = "0 0 0/6 * * ?")
     protected void dayPrice() {
         final QueryWrapper<AshareList> wrapper = new QueryWrapper<>();
         final List<AshareList> ashareLists = ashareListMapper.selectList(wrapper);
@@ -61,6 +61,11 @@ public class QuartzConfig {
             return;
         }
         for (AshareList a :ashareLists){
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             //先判断该票今天跑了没
 //            QueryWrapper<AshareList> query = new QueryWrapper<>();
 //            query.lambda().eq(AshareList::getCode,a.getCode());
@@ -83,13 +88,18 @@ public class QuartzConfig {
         }
     }
 
-    @Scheduled(cron = "0 0/10 * * * ?")
+//    @Scheduled(cron = "0 0 0/6 * * ?")
+    @Scheduled(cron = "0 0/5 * * * ?")
     protected void buyAshare() {
         System.out.println("进入AshareDecisionTask:");
         AshareHistory param = new AshareHistory();
         param.setPsy(new BigDecimal(16.7));
         QueryWrapper<AshareHistory> queryMapper = new QueryWrapper<>();
-        queryMapper.lt("psy","16.7");
+        queryMapper.le("psy","16.7");
+        java.util.Calendar cl = java.util.Calendar.getInstance();
+        cl.add(Calendar.DAY_OF_YEAR,-1);
+
+        queryMapper.lambda().eq(AshareHistory::getDate,new Date(cl.getTime().getTime()));
         List<AshareHistory> AshareHistorys1 = ashareHistoryMapper.selectList(queryMapper);
         System.out.println("有"+AshareHistorys1.size()+"条记录");
         for (AshareHistory a:AshareHistorys1){
@@ -97,7 +107,6 @@ public class QuartzConfig {
             AshareHistory param1 = new AshareHistory();
             param1.setCode(a.getCode());
             Date date = a.getDate();
-            java.util.Calendar cl = java.util.Calendar.getInstance();
             cl.setTime(date);
             cl.add(Calendar.DAY_OF_YEAR,-1);
             java.util.Date time = cl.getTime();

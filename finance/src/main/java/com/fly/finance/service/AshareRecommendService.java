@@ -2,6 +2,9 @@ package com.fly.finance.service;
 
 import com.fly.finance.entity.AshareRecommend;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fly.finance.vo.RecommendVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,4 +17,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface AshareRecommendService extends IService<AshareRecommend> {
 
     boolean recommendEachDay();
+
+    List<RecommendVO> selectTodayRecommend();
 }

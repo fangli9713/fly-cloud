@@ -72,3 +72,8 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     cache-enabled: false
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  #打印sql
+
+netty:
+  enabled: true
+  port: 8031
+  handler: com.fly.common.netty.protobuf.ProtoBufServerHandler
