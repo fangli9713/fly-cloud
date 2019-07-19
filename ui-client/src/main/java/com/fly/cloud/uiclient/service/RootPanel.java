@@ -3,11 +3,8 @@ package com.fly.cloud.uiclient.service;
 import com.fly.cloud.uiclient.service.netty.client.NettyClient;
 import com.fly.cloud.uiclient.service.netty.client.NettyClientProtoBufHandler;
 import com.fly.cloud.uiclient.vo.RecommendVO;
-import com.fly.common.util.StringUtil;
 import io.netty.channel.Channel;
-import org.apache.commons.lang3.StringUtils;
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
-import org.jb2011.lnf.beautyeye.ch5_table.BETableUI;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -25,8 +22,6 @@ public class RootPanel extends JFrame {
     public static RootPanel getInstance() {
         return single.instance;
     }
-
-
     JPanel rootJp = new JPanel();
 
     JPanel body = new JPanel();

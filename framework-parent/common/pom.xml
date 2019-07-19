@@ -7,8 +7,6 @@
         <artifactId>framework-parent</artifactId>
         <version>1.0.0</version>
     </parent>
-
-
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.fly.cloud</groupId>
     <artifactId>common</artifactId>
@@ -16,11 +14,6 @@
     <version>1.0.0</version>
 
     <dependencies>
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-amqp</artifactId>-->
-        <!--</dependency>-->
-        <!-- https://mvnrepository.com/artifact/com.aliyun.oss/aliyun-sdk-oss -->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>

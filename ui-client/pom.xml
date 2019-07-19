@@ -33,6 +33,14 @@
             <artifactId>netty-all</artifactId>
             <version>4.1.29.Final</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.beautyeye</groupId>
+            <artifactId>inf</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/lib/beautyeye_lnf.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>

@@ -2,7 +2,6 @@ package com.fly.finance.util;
 
 import com.fly.common.netty.ChannelHandlerUtil;
 import com.fly.common.netty.dto.BaseMsgOuterClass;
-import com.fly.common.netty.protobuf.ProtoBufServiceHandler;
 import com.fly.finance.service.NettyServiceHandler;
 import com.googlecode.protobuf.format.JsonFormat;
 import io.netty.channel.Channel;
@@ -11,11 +10,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.ReferenceCountUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 
 @Slf4j
 @ChannelHandler.Sharable
