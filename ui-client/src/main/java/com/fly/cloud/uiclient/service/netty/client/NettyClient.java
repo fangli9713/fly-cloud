@@ -10,9 +10,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
-import org.apache.commons.lang3.time.FastDateFormat;
 
-import java.util.Date;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -57,7 +55,7 @@ public class NettyClient {
                 lock.lock();
                 if(this.cf == null || !this.cf.channel().isActive()) {
                     this.cf = b.connect(HOST, PORT).sync();
-                    System.out.println(FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss").format(new Date()) + "远程服务器已经连接, 可以进行数据交换..");
+                    System.out.println("远程服务器已经连接, 可以进行数据交换..");
                 }
             }
         }catch (Exception e){
@@ -87,6 +85,6 @@ public class NettyClient {
         NettyClient client = NettyClient.getInstance();
         final ChannelFuture channelFuture = client.getChannelFuture();
         if(channelFuture != null)
-        channelFuture.channel().writeAndFlush(NettyClientProtoBufHandler.build(null,null,"today",1));
+        channelFuture.channel().writeAndFlush(ClientHandler.build(null,null,"today",1));
     }
 }

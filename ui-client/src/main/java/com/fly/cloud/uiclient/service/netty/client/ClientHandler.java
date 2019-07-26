@@ -3,17 +3,14 @@ package com.fly.cloud.uiclient.service.netty.client;
 import com.alibaba.fastjson.JSON;
 import com.fly.cloud.uiclient.service.MethodConstant;
 import com.fly.cloud.uiclient.service.RootPanel;
-import com.fly.cloud.uiclient.service.UIConstant;
+import com.fly.cloud.uiclient.service.netty.dto.BaseMsgOuterClass;
+import com.fly.cloud.uiclient.service.netty.dto.BaseResultOuterClass;
 import com.fly.cloud.uiclient.vo.RecommendVO;
-import com.fly.common.netty.dto.BaseMsgOuterClass;
-import com.fly.common.netty.dto.BaseResultOuterClass;
-import com.googlecode.protobuf.format.JsonFormat;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Random;
@@ -25,7 +22,7 @@ import java.util.TimerTask;
  * @description: 客户端处理类
  * @date 2019/5/30
  */
-public class NettyClientProtoBufHandler extends ChannelInboundHandlerAdapter {
+public class ClientHandler extends ChannelInboundHandlerAdapter {
 
     public static final String HEART_METHOD = "heart";
     final private Random random = new Random();
@@ -53,7 +50,7 @@ public class NettyClientProtoBufHandler extends ChannelInboundHandlerAdapter {
             if (state == IdleState.WRITER_IDLE) {
                 // write heartbeat to server
                 // System.out.println(ctx.channel().id()+">>>sending heart beat to the server......");
-                ctx.channel().writeAndFlush(NettyClientProtoBufHandler.heartMsg());
+                ctx.channel().writeAndFlush(heartMsg());
             }
         } else {
             super.userEventTriggered(ctx, evt);
@@ -66,13 +63,12 @@ public class NettyClientProtoBufHandler extends ChannelInboundHandlerAdapter {
             throws Exception {
         BaseResultOuterClass.BaseResult msg = (BaseResultOuterClass.BaseResult) obj;
         //消息会在这个方法接收到，msg就是经过解码器解码后得到的消息，框架自动帮你做好了粘包拆包和解码的工作
-        System.out.println("服务器返回的data数据===" + new JsonFormat().printToString(msg));
         handle(ctx, msg);
     }
 
     private void ping() {
 
-        Timer timer = new Timer();
+        final Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -110,7 +106,6 @@ public class NettyClientProtoBufHandler extends ChannelInboundHandlerAdapter {
      * @throws Exception
      */
     public void handle(ChannelHandlerContext ctx, BaseResultOuterClass.BaseResult msg) throws Exception {
-        System.out.println(new JsonFormat().printToString(msg));
 
         final String method = msg.getMethod();
         if (method.equals(HEART_METHOD)) {
@@ -135,18 +130,16 @@ public class NettyClientProtoBufHandler extends ChannelInboundHandlerAdapter {
 
     public static BaseMsgOuterClass.BaseMsg.Builder build(String token, String info, String method, int os) {
         BaseMsgOuterClass.BaseMsg.Builder baseMsg = BaseMsgOuterClass.BaseMsg.newBuilder();
-        if (!StringUtils.isEmpty(token)) {
+        if (null != token) {
             baseMsg.setToken(token);
         }
-        if (!StringUtils.isEmpty(info)) {
+        if (null != info) {
             baseMsg.setInfo(info);
         }
-        if (!StringUtils.isEmpty(method)) {
+        if (null != method) {
             baseMsg.setMethod(method);
         }
-        if (!StringUtils.isEmpty(os)) {
-            baseMsg.setOs(os);
-        }
+        baseMsg.setOs(os);
         return baseMsg;
     }
 }

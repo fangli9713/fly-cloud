@@ -1,7 +1,6 @@
-package com.fly.common.annotation;
+package com.fly.common.datasource.annotation;
 
-
-import com.fly.common.config.datasource.DruidConfig;
+import com.fly.common.datasource.druid.DruidConfig;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;

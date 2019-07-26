@@ -1,6 +1,6 @@
 package com.fly.cloud.uiclient.service.netty.client;
 
-import com.fly.common.netty.dto.BaseResultOuterClass;
+import com.fly.cloud.uiclient.service.netty.dto.BaseResultOuterClass;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -42,7 +42,7 @@ public class NettyClientProtoBufInitializer extends ChannelInitializer<SocketCha
         /**
          * 自己定义的消息处理器，接收消息会在这个类处理
          */
-        channelPipeline.addLast(new NettyClientProtoBufHandler());
+        channelPipeline.addLast(new ClientHandler());
 
     }
 }

@@ -1,6 +1,6 @@
 package com.fly.robot;
 
-import com.fly.common.annotation.EnableDruidSourceConfiguration;
+import com.fly.common.datasource.annotation.EnableDruidSourceConfiguration;
 import com.fly.common.netty.NettyServer;
 import com.fly.robot.init.ProtoBufServerHandler;
 import lombok.extern.slf4j.Slf4j;

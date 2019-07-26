@@ -1,17 +1,19 @@
 package com.fly.cloud.uiclient.service;
 
 import com.fly.cloud.uiclient.service.netty.client.NettyClient;
-import com.fly.cloud.uiclient.service.netty.client.NettyClientProtoBufHandler;
 import com.fly.cloud.uiclient.vo.RecommendVO;
 import io.netty.channel.Channel;
-import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
+import org.jb2011.lnf.beautyeye.ch2_tab.BETabbedPaneUI;
+import org.jb2011.lnf.beautyeye.ch5_table.BETableUI;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.BorderUIResource;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.TabbedPaneUI;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.List;
+
+import static com.fly.cloud.uiclient.service.netty.client.ClientHandler.buildMethod;
 
 public class RootPanel extends JFrame {
 
@@ -28,6 +30,7 @@ public class RootPanel extends JFrame {
 
     JPanel menu = new JPanel();
     JPanel foot = new JPanel();
+    BETabbedPaneUI paneUI = new BETabbedPaneUI();
     JTabbedPane tabbedPane = new JTabbedPane();
     JPanel panel1 = new JPanel();
     JPanel panel2 = new JPanel();
@@ -35,6 +38,7 @@ public class RootPanel extends JFrame {
     JPanel panel4 = new JPanel();
 
     public void init() {
+
         this.setTitle(UIConstant.MAIN_TITLE);
         this.setSize(UIConstant.MAIN_WIDTH, UIConstant.MAIN_HEIGHT);
         this.setMinimumSize(new Dimension(UIConstant.MAIN_WIDTH, UIConstant.MAIN_HEIGHT));
@@ -73,36 +77,16 @@ public class RootPanel extends JFrame {
     public RootPanel() {
 
         init();
+        //网络请求 建立网络连接
+        final Channel channel = NettyClient.getInstance().getChannelFuture().channel();
+        channel.writeAndFlush(buildMethod("today"));
     }
 
     public void reloadPanel1(List<RecommendVO> list) {
         panel1.removeAll();
-        panel1.add(RecommendTable.creaJTable(list));
     }
 
     public static void main(String[] args) {
-        try {
-            BeautyEyeLNFHelper.translucencyAtFrameInactive = false;
-            BeautyEyeLNFHelper.frameBorderStyle = BeautyEyeLNFHelper.FrameBorderStyle.generalNoTranslucencyShadow;
-            BeautyEyeLNFHelper.launchBeautyEyeLNF();
 
-            //改变InsetsUIResource参数的值即可实现
-            UIManager.put("TabbedPane.tabAreaInsets"
-                    , new javax.swing.plaf.InsetsUIResource(2, 10, 2, 2));
-            UIManager.put("RootPane.setupButtonVisible", false);
-            UIManager.put("ToolBar.isPaintPlainBackground", Boolean.TRUE);
-            //自定义JToolBar ui的border
-            Border bd = new org.jb2011.lnf.beautyeye.ch8_toolbar.BEToolBarUI.ToolBarBorder(UIManager.getColor("ToolBar.shadow"),//Floatable时触点的颜色
-                    UIManager.getColor("ToolBar.highlight"),//Floatable时触点的阴影颜色
-                    new Insets(0, 0, 8, 0));//border的默认insets
-            UIManager.put("ToolBar.border", new BorderUIResource(bd));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        //网络请求 建立网络连接
-        final Channel channel = NettyClient.getInstance().getChannelFuture().channel();
-        getInstance();
-        channel.writeAndFlush(NettyClientProtoBufHandler.buildMethod("today"));
     }
 }

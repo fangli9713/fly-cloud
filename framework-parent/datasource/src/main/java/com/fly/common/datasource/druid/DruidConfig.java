@@ -1,4 +1,4 @@
-package com.fly.common.config.datasource;
+package com.fly.common.datasource.druid;
 
 import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.support.http.StatViewServlet;

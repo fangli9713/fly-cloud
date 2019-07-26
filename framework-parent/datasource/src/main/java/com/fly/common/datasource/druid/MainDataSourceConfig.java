@@ -1,4 +1,4 @@
-package com.fly.common.config.datasource;
+package com.fly.common.datasource.druid;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
