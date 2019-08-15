@@ -1,6 +1,6 @@
 package com.fly.common.config.redis;
 
-import com.fly.common.util.RedisUtil;
+import com.fly.common.util.redis.RedisUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
