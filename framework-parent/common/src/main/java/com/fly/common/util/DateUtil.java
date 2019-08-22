@@ -82,6 +82,14 @@ public class DateUtil {
         return simpleDateFormat.format(date);
     }
 
+    public static String dateToString(Date date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_TIME_PATTERN);
+        if (date == null) {
+            return null;
+        }
+        return simpleDateFormat.format(date);
+    }
+
     /**
      * 时间戳数型日期转转指定格式String
      *

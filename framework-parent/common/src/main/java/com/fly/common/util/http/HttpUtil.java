@@ -1,5 +1,7 @@
 package com.fly.common.util.http;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -14,6 +16,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
+@Slf4j
 public class HttpUtil {
 
 
@@ -123,6 +126,7 @@ public class HttpUtil {
 			HttpResponseCallback<R> callback,
 			int connectTimout,
 			int readTimeout) throws Exception{
+		log.info(requestUrl+"?"+postJson);
 		HttpURLConnection httpUrlConn=null;
 		R result=null;
 		try{

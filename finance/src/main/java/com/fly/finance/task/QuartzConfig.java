@@ -2,6 +2,8 @@ package com.fly.finance.task;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.fly.common.util.ThreadUtil;
+import com.fly.common.util.redis.RedisUtil;
 import com.fly.finance.entity.AshareHistory;
 import com.fly.finance.entity.AshareList;
 import com.fly.finance.entity.AshareTransaction;
@@ -9,6 +11,7 @@ import com.fly.finance.mapper.AshareHistoryMapper;
 import com.fly.finance.mapper.AshareListMapper;
 import com.fly.finance.mapper.AshareTransactionMapper;
 import com.fly.finance.service.AshareHistoryService;
+import com.fly.finance.service.AshareListService;
 import com.fly.finance.service.AshareTransactionService;
 import com.fly.finance.util.PSYUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -33,8 +36,6 @@ import java.util.List;
 @Slf4j
 public class QuartzConfig {
 
-    @Resource
-    AshareListMapper ashareListMapper;
 
     @Resource
     AshareHistoryMapper ashareHistoryMapper;
@@ -48,41 +49,14 @@ public class QuartzConfig {
     @Resource
     AshareTransactionMapper ashareTransactionMapper;
 
+    @Resource
+    AshareListService ashareListService;
+
 
 //    @Scheduled(cron = "0 0 0 * * ?")
     @Scheduled(cron = "0 0 0/6 * * ?")
     protected void dayPrice() {
-        final QueryWrapper<AshareList> wrapper = new QueryWrapper<>();
-        final List<AshareList> ashareLists = ashareListMapper.selectList(wrapper);
-        if(CollectionUtils.isEmpty(ashareLists)){
-            return;
-        }
-        for (AshareList a :ashareLists){
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            //先判断该票今天跑了没
-//            QueryWrapper<AshareList> query = new QueryWrapper<>();
-//            query.lambda().eq(AshareList::getCode,a.getCode());
-//            final Integer count = ashareListMapper.selectCount(query);
-//            if(count>0){
-//                continue;
-//            }
-            final List<AshareHistory> psyAndMA = PSYUtil.getPSYAndMA(a.getCode());
-            if(CollectionUtils.isEmpty(psyAndMA)){
-                continue;
-            }
-            for (AshareHistory p:psyAndMA) {
-
-                final AshareHistory historyPrices = ashareHistoryService.selectOneByCodeAndDate(p.getCode(),p.getDate());
-                if(historyPrices != null)
-                    continue;
-                ashareHistoryMapper.insert(p);
-            }
-
-        }
+        ashareListService.pullData();
     }
 
 //    @Scheduled(cron = "0 0 0/6 * * ?")

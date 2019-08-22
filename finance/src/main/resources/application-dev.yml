@@ -36,6 +36,10 @@ spring:
         # 默认设置queryPassing=false，即返回所有的服务，包括down掉的。通过配置改为true则可返回所有健康检查通过的服务
         query-passing: true
         prefer-ip-address: true
+  redis:
+    host: 47.106.153.232
+    port: 6379
+    database: 0
 
 #  rabbitmq:
 #    addresses: 192.168.4.202:5672

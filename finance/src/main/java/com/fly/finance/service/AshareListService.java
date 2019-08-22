@@ -15,4 +15,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface AshareListService extends IService<AshareList> {
 
     DataResult today();
+
+    void pullData();
 }

@@ -44,10 +44,9 @@ public class TransactionModel {
     }
 
     public static void main(String[] args) {
-        for (int i = 1; i < 7; i++) {
             BigDecimal basePrice = new BigDecimal(100);
-            int step = 4;
-            BigDecimal rate = new BigDecimal(i);
+            int step = 5;
+            BigDecimal rate = new BigDecimal(5);
             System.out.println("一手的单价是:" + basePrice);
             System.out.println("一共分" + step + "次买入");
             System.out.println("买入的阶梯幅度为=" + rate + "个百分点");
@@ -59,7 +58,6 @@ public class TransactionModel {
             }
             avgModel(basePrice, step, rate);
             ladderModel(basePrice, step, rate);
-        }
     }
 
     public static BigDecimal ladderModel(BigDecimal price, int step, BigDecimal rate) {

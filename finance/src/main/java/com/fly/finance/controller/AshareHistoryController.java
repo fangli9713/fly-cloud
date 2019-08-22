@@ -2,6 +2,8 @@ package com.fly.finance.controller;
 
 
 import com.fly.common.core.convert.DataResult;
+import com.fly.common.core.convert.DataResultBuild;
+import com.fly.finance.service.AshareHistoryService;
 import com.fly.finance.service.AshareListService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +14,7 @@ import javax.annotation.Resource;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author fanglinan
@@ -24,16 +26,23 @@ public class AshareHistoryController {
 
     @Resource
     AshareListService ashareListService;
+
     @GetMapping("/today")
-    public DataResult today(){
+    public DataResult today() {
         return ashareListService.today();
     }
 
     @GetMapping("/recommend/list")
-    public DataResult recList(){
+    public DataResult recList() {
         return ashareListService.today();
     }
 
+
+    @GetMapping("/pull")
+    public DataResult pullData() {
+        ashareListService.pullData();
+        return DataResultBuild.success();
+    }
 
 }
 

@@ -3,6 +3,7 @@ package com.fly.finance.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.fly.common.util.DateUtil;
 import com.fly.common.util.http.HttpUtil;
 import com.fly.finance.entity.AshareHistory;
 import org.springframework.util.CollectionUtils;
@@ -24,8 +25,8 @@ public class PSYUtil {
         System.out.println(psyAndMA);
     }
 
-    public static List<AshareHistory>  getPSYAndMA(String code){
-
+    public static List<AshareHistory> getPSYAndMA(String code) {
+        System.out.println("getPSYAndMA"+DateUtil.dateToString(new Date()));
         StringBuilder builder = new StringBuilder(BASE_URL);
         builder.append("&code=").append(code);
         builder.append("&index=false&k_type=day&fq_type=qfq&start_date=");
@@ -33,7 +34,7 @@ public class PSYUtil {
         //计算开始日期 和 结束日期 倒推 20天
 
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_YEAR,1);
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
         Date end = calendar.getTime();
         calendar.add(Calendar.DAY_OF_YEAR,-28);
         Date start = calendar.getTime();
@@ -45,25 +46,26 @@ public class PSYUtil {
         try {
             final String s = HttpUtil.doRequest(builder.toString(), null, null);
             System.out.println(s);
-            final Map<?,?> map = JSON.parseObject(s,Map.class);
-            final Integer error_code = (Integer)map.get("error_code");
-            if(error_code==null || error_code!=0){
+            final Map<?, ?> map = JSON.parseObject(s, Map.class);
+            final Integer error_code = (Integer) map.get("error_code");
+            if (error_code == null || error_code != 0) {
                 return null;
             }
-            final JSONArray data = (JSONArray)map.get("data");
+            final JSONArray data = (JSONArray) map.get("data");
             final List<AshareHistory> list = JSONObject.parseArray(data.toJSONString(), AshareHistory.class);
             final LinkedList<AshareHistory> dataList = new LinkedList<>(list);
-            while (true){
-                    final BigDecimal psy = getPSY(dataList);
-                    if(psy==null)
-                        break;
+            System.out.println("insertList"+DateUtil.dateToString(new Date()));
+            while (true) {
+                final BigDecimal psy = getPSY(dataList);
+                if (psy == null)
+                    break;
                 final AshareHistory map1 = dataList.removeLast();
                 map1.setPsy(psy);
                 map1.setAlias(map1.getCode());
                 map1.setCode(code);
                 map1.setCreateTime(new Date());
                 insertList.add(map1);
-                }
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,8 +73,9 @@ public class PSYUtil {
         return insertList;
     }
 
-    public static BigDecimal getPSY(List<AshareHistory> dataList){
-        if(CollectionUtils.isEmpty(dataList) || dataList.size()<12){
+    public static BigDecimal getPSY(List<AshareHistory> dataList) {
+        final int size = dataList.size();
+        if (CollectionUtils.isEmpty(dataList) || size < 12) {
             return null;
         }
 
@@ -80,11 +83,12 @@ public class PSYUtil {
         int total = 12;
         int count = total;
         LinkedList<BigDecimal> lt = new LinkedList<>();
-        for (int i = dataList.size()-1; i>=0; i--) {
-            if(count<1){
+
+        for (int i =  size- 1; i >= 0; i--) {
+            if (count < 1) {
                 break;
             }
-            count -=1;
+            count -= 1;
 
             final AshareHistory data = dataList.get(i);
 
@@ -92,19 +96,19 @@ public class PSYUtil {
             lt.addFirst(clo);
             //获取前一天的数据
             BigDecimal clo1 = null;
-            if(i>1){
-                final AshareHistory data1 = dataList.get(i-1);
+            if (i > 1) {
+                final AshareHistory data1 = dataList.get(i - 1);
                 clo1 = data1.getClose();
             }
-            if(clo1!=null){
+            if (clo1 != null) {
                 final BigDecimal subtract = clo.subtract(clo1);
                 //涨
-                if(subtract.doubleValue()>0){
-                    up+=1;
+                if (subtract.doubleValue() > 0) {
+                    up += 1;
                 }
             }
         }
-        final BigDecimal psy = new BigDecimal((double)up / total).multiply(new BigDecimal(100)).setScale(2,BigDecimal.ROUND_HALF_UP);
+        final BigDecimal psy = new BigDecimal((double) up / total).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP);
         return psy;
     }
 }
