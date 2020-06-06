@@ -21,7 +21,7 @@ public class SwaggerProvider
         List<SwaggerResource> resources = new ArrayList<>();
         List<String> routes = new ArrayList<>();
         //取出gateway的route
-        resources.add(swaggerResource("robot（授权中心）", "/robot/v2/api-docs"));
+        resources.add(swaggerResource("web（授权中心）", "/web/v2/api-docs"));
         return resources;
     }
 

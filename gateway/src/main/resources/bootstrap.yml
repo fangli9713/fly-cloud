@@ -20,48 +20,10 @@ spring:
       #总数据的大小
       max-request-size: 5Mb
 
-zuul:
-  ribbon:
-    eager-load:
-      enabled: true
-  routes:
-    robot:
-      path: /robot/**
-      serviceId: robot
-
-ribbon:
-  ConnectTimeout: 60000
-  ReadTimeout: 600000
-
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 660000
-
 logging:
   level:
     com.netflix: DEBUG
   file: log/gateway.log
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-      base-path: /
-  server:
-    servlet:
-      context-path: ${server.servlet.context-path}
-    port: ${server.port}
-  endpoint:
-    health:
-      show-details: always
-
-cors:
-  enable: true
 
 info:
   status: ok

@@ -19,8 +19,9 @@
     <modules>
         <module>gateway</module>
         <module>framework-parent</module>
-        <module>robot</module>
-        <module>finance</module>
+        <module>core</module>
+        <module>operate</module>
+        <module>web</module>
     </modules>
 
     <properties>
@@ -30,20 +31,15 @@
         <lombok.version>1.18.0</lombok.version>
         <zuul.version>2.0.1.RELEASE</zuul.version>
         <openfeign.version>2.0.1.RELEASE</openfeign.version>
-        <consul.discovery.version>2.0.1.RELEASE</consul.discovery.version>
         <alibaba.druid.version>1.0.28</alibaba.druid.version>
         <mybatis.plus.boot.starter>3.0-RELEASE</mybatis.plus.boot.starter>
+        <nacos-config-spring-boot.version>0.2.7</nacos-config-spring-boot.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-consul-discovery</artifactId>
-            <version>${consul.discovery.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.netflix.archaius/archaius-core -->
         <dependency>
@@ -56,11 +52,11 @@
             <artifactId>hystrix-core</artifactId>
             <version>1.5.18</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <version>${openfeign.version}</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>io.github.openfeign.form</groupId>
             <artifactId>feign-form</artifactId>
@@ -117,6 +113,20 @@
             <artifactId>spring-boot-starter-jta-atomikos</artifactId>
 
         </dependency>
+
+        <!-- nacos 依赖 -->
+        <!--<dependency>
+            <groupId>com.alibaba.boot</groupId>
+            <artifactId>nacos-config-spring-boot-starter</artifactId>
+            <version>${nacos-config-spring-boot.version}</version>
+        </dependency>-->
+
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <version>2.2.0.RELEASE</version>
+        </dependency>
+
 
         <!--mybatis-plus-->
         <dependency>
@@ -175,11 +185,30 @@
             <version>${swagger2.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.googlecode.protobuf-java-format</groupId>
+            <artifactId>protobuf-java-format</artifactId>
+            <version>1.4</version>
+        </dependency>
+
         <!--<dependency>-->
             <!--<groupId>com.google.guava</groupId>-->
             <!--<artifactId>guava</artifactId>-->
             <!--<version>27.0-jre</version>-->
         <!--</dependency>-->
     </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>Internal Release</name>
+            <url>http://112.74.163.245:8090/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>Internal Snapshots</name>
+            <url>http://112.74.163.245:8090/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>

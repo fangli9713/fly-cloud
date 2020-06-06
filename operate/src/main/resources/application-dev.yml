@@ -1,0 +1,49 @@
+spring:
+  datasource:
+    name: operate
+    url: jdbc:mysql://47.106.153.232:3306/fly_finance?useUnicode=true&characterEncoding=utf8
+    username: fangln
+    password: fangln1991!
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: DatebookHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  cloud:
+    nacos:
+      discovery:
+        sever-addr: 47.106.153.232:8848
+  redis:
+    host: 47.106.153.232
+    port: 6379
+    database: 0
+
+#  rabbitmq:
+#    addresses: 192.168.4.202:5672
+#    username: admin
+#    password: poly2017
+#    virtual-host: /
+#    connection-timeout: 120000
+#    publisher-confirms: true
+#    publisher-returns: true
+#    template:
+#      mandatory: true
+#    listener:
+#      simple:
+#        acknowledge-mode: manual  #none不发送ack。manual手工签收。auto自动ack
+#        concurrency: 5  #最小消费者数量
+#        max-concurrency: 10  #最大消费者数量
+#  redis:
+#    database: 0
+#    host: 192.168.4.205
+#    port: 6379
+
+#token:
+#  jwtSecret: propertyCloud2019  #jwt secret
+

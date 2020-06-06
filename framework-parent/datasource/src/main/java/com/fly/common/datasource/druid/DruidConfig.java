@@ -48,7 +48,7 @@ public class DruidConfig {
     @Bean(name = "robotDataSource")
     public AtomikosDataSourceBean robotDataSource(Environment env) {
         AtomikosDataSourceBean ds = new AtomikosDataSourceBean();
-        Properties prop = build(env, "spring.datasource.druid.", "robot.");
+        Properties prop = build(env, "spring.datasource.druid.", "web.");
         ds.setXaDataSourceClassName("com.alibaba.druid.pool.xa.DruidXADataSource");
         ds.setUniqueResourceName("robotDB");
         ds.setPoolSize(20);

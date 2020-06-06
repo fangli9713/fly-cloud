@@ -27,8 +27,8 @@ public class MainDataSourceConfig {
     /**
      * 精确到 master 目录，以便跟其他数据源隔离
      */
-    static final String PACKAGE = "com.fly.finance.dao";
-    static final String MAPPER_LOCATION = "classpath*:mapper/finance/*.xml";
+    static final String PACKAGE = "com.fly.operate.dao";
+    static final String MAPPER_LOCATION = "classpath*:mapper/operate/*.xml";
     static final String REF = "mainSqlSessionFactory";
 
     @Bean
