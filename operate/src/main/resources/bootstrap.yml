@@ -5,7 +5,7 @@ server:
 
 spring:
   profiles:
-    active: pro
+    active: dev
   application:
     name: operate
     group: com.fly
@@ -19,17 +19,6 @@ spring:
       max-file-size: 2Mb
       #总数据的大小
       max-request-size: 5Mb
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 660000
-logging:
-  level:
-    com.netflix: DEBUG
-  file: log/operate.log
 management:
   endpoints:
     web:
@@ -43,8 +32,6 @@ management:
   endpoint:
     health:
       show-details: always
-cors:
-  enable: true
 info:
   status: ok
 #mybatis

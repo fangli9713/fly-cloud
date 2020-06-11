@@ -7,10 +7,10 @@ spring:
   profiles:
     active: dev
   application:
-    name: gateway
+    name: core
     group: com.fly
   jta:
-    logDir: log/gatewayTx-log
+    logDir: log/coreTx-log
   servlet:
     multipart:
       enabled: true
@@ -19,33 +19,6 @@ spring:
       max-file-size: 2Mb
       #总数据的大小
       max-request-size: 5Mb
-
-zuul:
-  ribbon:
-    eager-load:
-      enabled: true
-  routes:
-    robot:
-      path: /web/**
-      serviceId: web
-
-ribbon:
-  ConnectTimeout: 60000
-  ReadTimeout: 600000
-
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          thread:
-            timeoutInMilliseconds: 660000
-
-logging:
-  level:
-    com.netflix: DEBUG
-  file: log/gateway.log
-
 management:
   endpoints:
     web:
@@ -59,10 +32,6 @@ management:
   endpoint:
     health:
       show-details: always
-
-cors:
-  enable: true
-
 info:
   status: ok
 #mybatis

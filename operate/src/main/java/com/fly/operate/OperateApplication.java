@@ -28,6 +28,6 @@ public class OperateApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        log.info("finance服务启动成功,当前运行环境-------->" + active);
+        log.info("operate服务启动成功,当前运行环境-------->" + active);
     }
 }

@@ -18,9 +18,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableTransactionManagement
-@RefreshScope
-@EnableAsync
 @Slf4j
 public class WebApplication implements CommandLineRunner {
 
@@ -32,9 +29,9 @@ public class WebApplication implements CommandLineRunner {
         SpringApplication.run(WebApplication.class, args);
     }
 
-
+    @Override
     public void run(String... args) throws Exception {
-        log.info("robot服务启动成功,当前运行环境-------->" + active);
+        log.info("web服务启动成功,当前运行环境-------->" + active);
     }
 
 //    @Bean
