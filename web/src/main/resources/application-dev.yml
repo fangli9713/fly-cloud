@@ -19,7 +19,6 @@ spring:
     nacos:
       discovery:
         serverAddr: 47.106.153.232:8848
-
 token:
   jwtSecret: propertyCloud2019  #jwt secret
 swagger:

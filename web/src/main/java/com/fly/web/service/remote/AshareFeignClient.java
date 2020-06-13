@@ -1,8 +1,15 @@
 package com.fly.web.service.remote;
 
-import com.fly.common.core.convert.DataResult;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+
+@FeignClient(name = "core")
 public interface AshareFeignClient {
 
-    DataResult getExtInfoById();
+
+
+    @GetMapping("/user/add/{str}")
+    String add(@PathVariable(value = "str") String str);
 }

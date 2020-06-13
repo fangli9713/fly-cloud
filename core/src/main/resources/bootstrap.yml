@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /core
+    context-path: /
   port: 9702
 
 spring:

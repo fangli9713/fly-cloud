@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path: /web
+    context-path: /
   port: 9704
 
 spring:
