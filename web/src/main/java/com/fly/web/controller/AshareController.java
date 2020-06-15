@@ -19,7 +19,6 @@ public class AshareController {
     @GetMapping("/get")
     @ApiOperation(value = "根据ID查询User")
     public DataResult get(){
-
         return DataResultBuild.success(ashareFeignClient.add("123"));
     }
 }

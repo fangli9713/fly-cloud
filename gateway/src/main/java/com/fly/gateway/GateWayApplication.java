@@ -18,7 +18,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients
 @Slf4j
 public class GateWayApplication implements CommandLineRunner {
 

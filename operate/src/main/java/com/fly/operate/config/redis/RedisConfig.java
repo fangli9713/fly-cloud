@@ -1,4 +1,4 @@
-package com.fly.operate.config;
+package com.fly.operate.config.redis;
 
 import com.fly.common.config.redis.DefaultAutoRedisConfig;
 import com.fly.common.util.redis.RedisUtil;

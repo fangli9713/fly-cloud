@@ -5,9 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
-@FeignClient(name = "core")
+@FeignClient(name = "core",path = "core",fallbackFactory = ServiceFallbackFactory.class)
 public interface AshareFeignClient {
-
 
 
     @GetMapping("/user/add/{str}")

@@ -42,7 +42,7 @@ public class NettyServiceHandler {
         }
     }
 
-    public static void handle(ChannelHandlerContext ctx, Object obj) throws Exception {
+    public void handle(ChannelHandlerContext ctx, Object obj) throws Exception {
         BaseMsgOuterClass.BaseMsg msg = (BaseMsgOuterClass.BaseMsg) obj;
         String token = msg.getToken();
         Method method = methods.get(msg.getMethod());
@@ -66,7 +66,7 @@ public class NettyServiceHandler {
      * @param baseMsg
      * @return
      */
-    public static boolean today(ChannelHandlerContext ctx, BaseMsgOuterClass.BaseMsg baseMsg) {
+    public  boolean today(ChannelHandlerContext ctx, BaseMsgOuterClass.BaseMsg baseMsg) {
         AshareRecommendService service = SpringContext.getBean(AshareRecommendService.class);
         final List<RecommendVO> list = service.selectTodayRecommend();
         ProtoBufServiceHandler.writeChannel(ctx.channel(),0, JSON.toJSONString(list),baseMsg.getMethod());
