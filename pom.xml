@@ -19,7 +19,7 @@
         <mybatis.plus.boot.starter>3.0-RELEASE</mybatis.plus.boot.starter>
         <nacos-config-spring-boot.version>0.2.7</nacos-config-spring-boot.version>
         <fastjson.version>1.2.70</fastjson.version>
-        <mysql-connector.version>5.1.39</mysql-connector.version>
+        <mysql-connector.version>8.0.16</mysql-connector.version>
         <spring-cloud-alibaba.version>2.0.2.RELEASE</spring-cloud-alibaba.version>
     </properties>
 
